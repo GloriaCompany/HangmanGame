@@ -1,30 +1,126 @@
 #include "Game.h"
 
-bool Game::ValidateNickname(std::string nickname)
+// Масив символів, що повинні валідуватися
+const std::array<char, 25> invalidSymbols = { '!','@','.','/','[',']','(',')','$','%','^','&','*',':',';','"','`','<','>',',','-','+','№','?' };
+
+void Game::ValidateNickname(std::string& nickName)
 {
-	return false;
+    if (nickName.find(' ') != std::string::npos)
+        std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n";
+    else if (nickName.find_first_of(invalidSymbols.data(), 0, invalidSymbols.size()) != std::string::npos)
+        std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n";
+    else if (nickName.size() < this->NICKNAME_MIN_LENGTH || nickName.size() > this->NICKNAME_MAX_LENGTH)
+        std::cout << "ERROR: Мінімальна довжина нікнейму - " << this->NICKNAME_MIN_LENGTH << ", максимальна довжина нікнейму - " << NICKNAME_MAX_LENGTH << ". Повторіть введення нікнейму.\n";
 }
 
-std::string Game::GenerateWord()
+std::string Game::GenerateWord(std::string& filePath)
 {
-	return std::string();
+    std::ifstream file(filePath);
+
+    if (!file.is_open()) {
+        std::cout << "ERROR: Помилка відкриття файлу зі словами. Перевірте шлях до фалу та повторіть спробу.\n";
+        return "";
+    } else if (file.peek() == std::ifstream::traits_type::eof()) {
+        std::cout << "ERROR: Наразі файл зі словами пустий. Заповність файл словами та повторіть спробу.\n";
+        return "";
+    }
+
+    int lineCount = 0;
+    std::string line;
+    while (std::getline(file, line))
+        ++lineCount;
+
+    std::srand(std::time(nullptr));
+    int lineNumber = std::rand() % lineCount + 1;
+
+    file.clear();
+    file.seekg(0, std::ios::beg);
+    for (int i = 1; i <= lineNumber; ++i)
+        std::getline(file, line);
+
+    if (line.find(' ') != std::string::npos) {
+        std::cout << "ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
+        return "";
+    } else if (std::any_of(line.begin(), line.end(), ::isdigit)) {
+        std::cout << "ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
+        return "";
+    } else if (line.find_first_of(invalidSymbols.data(), 0, invalidSymbols.size()) != std::string::npos) {
+        std::cout << "ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
+        return "";
+    }
+
+    return line;
 }
 
-std::string Game::GetPartOfWord(std::string word)
+std::string Game::GetPartOfWord(std::string& word, int position, int lettersCount)
 {
-	return std::string();
+    if (position < 0 || position >= static_cast<int>(word.length())) {
+        throw std::out_of_range("ERROR: Позиція не має бути за межами заданого слова.\n");
+    } else if (lettersCount < 0 || lettersCount > static_cast<int>(word.length()) - position) {
+        throw std::out_of_range("ERROR: Кількість зчитуваних літер не має бути за межами заданого слова.\n");
+    }
+
+    return word.substr(position, lettersCount);
 }
 
-int Game::CheckLetterInWord(std::string word)
+bool Game::CheckLetterInWord(std::string& word, char letter)
 {
-	return 0;
+    bool found = false;
+    int attempts = 0;
+    std::string result(word.length(), '_');
+
+    while (!found && attempts < 8) {
+        bool letterFound = false;
+
+        for (int i = 0; i < word.length(); ++i) {
+            if (word[i] == letter) {
+                result[i] = letter;
+                letterFound = true;
+            }
+        }
+
+        if (letterFound) {
+            std::cout << "Ви вгадали літеру.\n";
+            std::cout << result << std::endl;
+        } else {
+            ++attempts;
+            std::cout << "Ви не вгадали літеру. У вас залишилось " << 8 - attempts << " спроб.\n";
+            std::cout << "Шибениця на теперішній стан:\n";
+            if (attempts == 1) {
+                // 1 етап шибениці
+            } else if (attempts == 2) {
+                // 2 етап шибениці
+            } else if (attempts == 3) {
+                // 3 етап шибениці
+            } else if (attempts == 4) {
+                // 4 етап шибениці
+            } else if (attempts == 5) {
+                // 5 етап шибениці
+            } else if (attempts == 6) {
+                // 6 етап шибениці
+            } else if (attempts == 7) {
+                // 7 етап шибениці
+            } else if (attempts == 8) {
+                GameOver(word);
+            } else {
+                std::cout << result << std::endl;
+            }
+        }
+
+        if (result == word) {
+            std::cout << "Вітаємо, ви вгадали усе слово!";
+            found = true;
+        }
+    }
 }
 
-int Game::GetNumOfLettersInWord(std::string word)
+int Game::GetNumOfLettersInWord(std::string& word)
 {
-	return 0;
+	return word.length();
 }
 
-void Game::GameOver()
+void Game::GameOver(std::string& word)
 {
+    std::cout << "Гру закінчено. Загадане слово: " << word << std::endl;
+    // Повна шибениця
 }
