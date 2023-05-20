@@ -7,14 +7,14 @@ using namespace std;
 
 int main()
 {
-    string name;
+    string name_;
     deque<Player> players;
     Player player;
     
     cout << "Input name: ";
-    cin >> name;
+    cin >> name_;
 
-    player.Auth(name);
+    player.Auth(name_);
 
     system("pause");
     return 0;
