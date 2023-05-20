@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "DesignHangman.h"
 
 // Масив символів, що повинні валідуватися
 const std::array<char, 25> invalidSymbols = { '!','@','.','/','[',']','(',')','$','%','^','&','*',':',';','"','`','<','>',',','-','+','№','?' };
@@ -65,6 +66,7 @@ std::string Game::GetPartOfWord(std::string& word, int position, int lettersCoun
 
 bool Game::CheckLetterInWord(std::string& word, char letter)
 {
+    DesignHangman dh;
     bool found = false;
     int attempts = 0;
     std::string result(word.length(), '_');
@@ -87,19 +89,19 @@ bool Game::CheckLetterInWord(std::string& word, char letter)
             std::cout << "Ви не вгадали літеру. У вас залишилось " << 8 - attempts << " спроб.\n";
             std::cout << "Шибениця на теперішній стан:\n";
             if (attempts == 1) {
-                // 1 етап шибениці
+                dh.HangmanStageOne();
             } else if (attempts == 2) {
-                // 2 етап шибениці
+                dh.HangmanStageTwo();
             } else if (attempts == 3) {
-                // 3 етап шибениці
+                dh.HangmanStageThree();
             } else if (attempts == 4) {
-                // 4 етап шибениці
+                dh.HangmanStageFour();
             } else if (attempts == 5) {
-                // 5 етап шибениці
+                dh.HangmanStageFive();
             } else if (attempts == 6) {
-                // 6 етап шибениці
+                dh.HangmanStageSix();
             } else if (attempts == 7) {
-                // 7 етап шибениці
+                dh.HangmanStageSeven();
             } else if (attempts == 8) {
                 GameOver(word);
             } else {
@@ -121,6 +123,7 @@ int Game::GetNumOfLettersInWord(std::string& word)
 
 void Game::GameOver(std::string& word)
 {
+    DesignHangman dh;
     std::cout << "Гру закінчено. Загадане слово: " << word << std::endl;
-    // Повна шибениця
+    dh.HangmanStageEight();
 }
