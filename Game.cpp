@@ -4,7 +4,7 @@
 // Масив символів, що повинні валідуватися
 const std::array<char, 25> invalidSymbols = { '!','@','.','/','[',']','(',')','$','%','^','&','*',':',';','"','`','<','>',',','-','+','№','?' };
 
-void Game::ValidateNickname(std::string& nickName)
+void Game::ValidateNickname(const std::string& nickName)
 {
     if (nickName.find(' ') != std::string::npos)
         std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n";
@@ -14,7 +14,7 @@ void Game::ValidateNickname(std::string& nickName)
         std::cout << "ERROR: Мінімальна довжина нікнейму - " << this->NICKNAME_MIN_LENGTH << ", максимальна довжина нікнейму - " << NICKNAME_MAX_LENGTH << ". Повторіть введення нікнейму.\n";
 }
 
-std::string Game::GenerateWord(std::string& filePath)
+std::string Game::GenerateWord(const std::string& filePath)
 {
     std::ifstream file(filePath);
 
@@ -31,8 +31,8 @@ std::string Game::GenerateWord(std::string& filePath)
     while (std::getline(file, line))
         ++lineCount;
 
-    std::srand(std::time(nullptr));
-    int lineNumber = std::rand() % lineCount + 1;
+    std::srand((unsigned int)std::time(nullptr));
+    const int lineNumber = std::rand() % lineCount + 1;
 
     file.clear();
     file.seekg(0, std::ios::beg);
@@ -53,7 +53,7 @@ std::string Game::GenerateWord(std::string& filePath)
     return line;
 }
 
-std::string Game::GetPartOfWord(std::string& word, int position, int lettersCount)
+std::string Game::GetPartOfWord(const std::string& word, int position, int lettersCount)
 {
     if (position < 0 || position >= static_cast<int>(word.length())) {
         throw std::out_of_range("ERROR: Позиція не має бути за межами заданого слова.\n");
@@ -64,7 +64,7 @@ std::string Game::GetPartOfWord(std::string& word, int position, int lettersCoun
     return word.substr(position, lettersCount);
 }
 
-bool Game::CheckLetterInWord(std::string& word, char letter)
+bool Game::CheckLetterInWord(const std::string& word, char letter)
 {
     DesignHangman dh;
     bool found = false;
@@ -75,8 +75,8 @@ bool Game::CheckLetterInWord(std::string& word, char letter)
         bool letterFound = false;
 
         for (int i = 0; i < word.length(); ++i) {
-            if (word[i] == letter) {
-                result[i] = letter;
+            if (word.at(i) == letter) {
+                result.at(i) = letter;
                 letterFound = true;
             }
         }
@@ -114,14 +114,15 @@ bool Game::CheckLetterInWord(std::string& word, char letter)
             found = true;
         }
     }
+    return found;
 }
 
-int Game::GetNumOfLettersInWord(std::string& word)
+int Game::GetNumOfLettersInWord(const std::string& word)
 {
-	return word.length();
+	return (int)word.length();
 }
 
-void Game::GameOver(std::string& word)
+void Game::GameOver(const std::string& word)
 {
     DesignHangman dh;
     std::cout << "Гру закінчено. Загадане слово: " << word << std::endl;
