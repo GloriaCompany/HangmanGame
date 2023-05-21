@@ -4,14 +4,18 @@
 // Масив символів, що повинні валідуватися
 const std::array<char, 25> invalidSymbols = { '!','@','.','/','[',']','(',')','$','%','^','&','*',':',';','"','`','<','>',',','-','+','№','?' };
 
-void Game::ValidateNickname(const std::string& nickName)
+bool Game::ValidateNickname(const std::string& nickName)
 {
-    if (nickName.find(' ') != std::string::npos)
-        std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n";
-    else if (nickName.find_first_of(invalidSymbols.data(), 0, invalidSymbols.size()) != std::string::npos)
-        std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n";
-    else if (nickName.size() < this->NICKNAME_MIN_LENGTH || nickName.size() > this->NICKNAME_MAX_LENGTH)
-        std::cout << "ERROR: Мінімальна довжина нікнейму - " << this->NICKNAME_MIN_LENGTH << ", максимальна довжина нікнейму - " << NICKNAME_MAX_LENGTH << ". Повторіть введення нікнейму.\n";
+    if (nickName.find(' ') != std::string::npos) {
+        std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n"; 
+        return false;
+    } else if (nickName.find_first_of(invalidSymbols.data(), 0, invalidSymbols.size()) != std::string::npos) {
+        std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n"; 
+        return false;
+    } else if (nickName.size() < this->NICKNAME_MIN_LENGTH || nickName.size() > this->NICKNAME_MAX_LENGTH) {
+        std::cout << "ERROR: Мінімальна довжина нікнейму - " << this->NICKNAME_MIN_LENGTH << ", максимальна довжина нікнейму - " << NICKNAME_MAX_LENGTH << ". Повторіть введення нікнейму.\n"; 
+        return false;
+    } else return true;
 }
 
 std::string Game::GenerateWord(const std::string& filePath)
