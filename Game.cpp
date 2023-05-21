@@ -4,6 +4,8 @@
 // Масив символів, що повинні валідуватися
 const std::array<char, 25> invalidSymbols = { '!','@','.','/','[',']','(',')','$','%','^','&','*',':',';','"','`','<','>',',','-','+','№','?' };
 
+Game::Game() {}
+
 bool Game::ValidateNickname(const std::string& nickName)
 {
     if (nickName.find(' ') != std::string::npos) {
