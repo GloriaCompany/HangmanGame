@@ -94,24 +94,35 @@ bool Game::CheckLetterInWord(const std::string& word, char letter)
             ++attempts;
             std::cout << "Ви не вгадали літеру. У вас залишилось " << 8 - attempts << " спроб.\n";
             std::cout << "Шибениця на теперішній стан:\n";
-            if (attempts == 1) {
+
+            switch (attempts) {
+            case 1:
                 dh.HangmanStageOne();
-            } else if (attempts == 2) {
+                break;
+            case 2:
                 dh.HangmanStageTwo();
-            } else if (attempts == 3) {
+                break;
+            case 3:
                 dh.HangmanStageThree();
-            } else if (attempts == 4) {
+                break;
+            case 4:
                 dh.HangmanStageFour();
-            } else if (attempts == 5) {
+                break;
+            case 5:
                 dh.HangmanStageFive();
-            } else if (attempts == 6) {
+                break;
+            case 6:
                 dh.HangmanStageSix();
-            } else if (attempts == 7) {
+                break;
+            case 7:
                 dh.HangmanStageSeven();
-            } else if (attempts == 8) {
-                GameOver(word);
-            } else {
+                break;
+            case 8:
+                dh.HangmanStageEight();
+                break;
+            default:
                 std::cout << result << std::endl;
+                break;
             }
         }
 
