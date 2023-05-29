@@ -11,14 +11,14 @@ int main()
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     string name, name1;
-    Game Check;
+    Game Choose;
     deque<Player> players;
     Player player;
 
 
     cout << "Input name for player 1: ";
     cin >> name;
-    while (Check.ValidateNickname(name) != true)
+    while (Choose.ValidateNickname(name) != true)
     {
         cout << "Input name for player 1: ";
         cin >> name; 
@@ -29,13 +29,22 @@ int main()
 
     cout << "Input name for player 2: ";
     cin >> name1;
-    while (Check.ValidateNickname(name1) != true)
+    while (Choose.ValidateNickname(name1) != true)
     {
         cout << "Input name for player 2: ";
         cin >> name1;
     }
     player.Auth(name1);
     system("cls");
+    ofstream fout;
+    fout.open("words.txt");
+    fout << "валерьянка"
+        << "вамбовцев"
+        << "вкраинец" << endl;
+    Choose.GenerateWord("");
+    fout.close();
+
+
     
      
 
