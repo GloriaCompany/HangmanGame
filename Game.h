@@ -6,6 +6,8 @@
 #include <string>
 #include <array>
 
+#include "DesignHangman.h"
+
 class Game
 {
 private:
@@ -15,9 +17,9 @@ public:
 
 	bool ValidateNickname(const std::string& nickName);
 	std::string GenerateWord(const std::string& filePath);
-	std::string GetPartOfWord(const std::string& word, int position, int lettersCount);
+	std::wstring GetPartOfWord(const std::wstring& word, int position, int lettersCount);
 	bool CheckLetterInWord(const std::string& word, char letter);
 	int GetNumOfLettersInWord(const std::string& word);
-	void GameOver(const std::string& word);
+	void GameOver(const std::wstring& word);
 };
 

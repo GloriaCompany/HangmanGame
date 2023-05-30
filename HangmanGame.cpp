@@ -1,54 +1,43 @@
 ﻿#include <iostream>
-#include <deque>
+#include <io.h>
+#include <fcntl.h>
 #include "Player.h"
 #include "Game.h"
 #include "windows.h"
+
+#define WORDS_FILE_PATH "words.txt"
 
 using namespace std;
 
 int main()
 {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    string name, name1;
-    Game Choose;
-    deque<Player> players;
-    Player player;
+    wstring name = L"";
+    char letter;
+    string word;
+    Game game;
+    Player player1;
+    Player player2;
 
+    _setmode(_fileno(stdout), _O_WTEXT);
 
-    cout << "Input name for player 1: ";
-    cin >> name;
-    while (Choose.ValidateNickname(name) != true)
-    {
-        cout << "Input name for player 1: ";
-        cin >> name; 
-    }
-    player.Auth(name);
+    wcout << "Input name for player 1: ";
+    wcin >> name;
+    player1.setName(name);
     system("cls");
 
-
-    cout << "Input name for player 2: ";
-    cin >> name1;
-    while (Choose.ValidateNickname(name1) != true)
-    {
-        cout << "Input name for player 2: ";
-        cin >> name1;
-    }
-    player.Auth(name1);
+    wcout << "Input name for player 2: ";
+    wcin >> name;
+    player2.setName(name);
     system("cls");
-    ofstream fout;
-    fout.open("words.txt");
-    fout << "валерьянка"
-        << "вамбовцев"
-        << "вкраинец" << endl;
-    Choose.GenerateWord("");
-    fout.close();
 
+    word = game.GenerateWord(WORDS_FILE_PATH);
 
-    
-     
-
-
+    for (int i = 0; i < game.GetNumOfLettersInWord(word); i++)
+    {
+        cout << "Letter: ";
+        cin >> letter;
+        game.CheckLetterInWord(word, letter);
+    }
 
     system("pause");
     return 0;

@@ -1,34 +1,33 @@
 #include "Game.h"
-#include "DesignHangman.h"
 
 // Масив символів, що повинні валідуватися
 const std::array<char, 25> invalidSymbols = { '!','@','.','/','[',']','(',')','$','%','^','&','*',':',';','"','`','<','>',',','-','+','№','?' };
 
 Game::Game() {}
 
-bool Game::ValidateNickname(const std::string& nickName)
-{
-    if (nickName.find(' ') != std::string::npos) {
-        std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n"; 
-        return false;
-    } else if (nickName.find_first_of(invalidSymbols.data(), 0, invalidSymbols.size()) != std::string::npos) {
-        std::cout << "ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n"; 
-        return false;
-    } else if (nickName.size() < this->NICKNAME_MIN_LENGTH || nickName.size() > this->NICKNAME_MAX_LENGTH) {
-        std::cout << "ERROR: Мінімальна довжина нікнейму - " << this->NICKNAME_MIN_LENGTH << ", максимальна довжина нікнейму - " << NICKNAME_MAX_LENGTH << ". Повторіть введення нікнейму.\n"; 
-        return false;
-    } else return true;
-}
+//bool Game::ValidateNickname(const std::wstring& nickName)
+//{
+//    if (nickName.find(' ') != std::string::npos) {
+//        std::wcout << L"ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n"; 
+//        return false;
+//    } else if (nickName.find_first_of(invalidSymbols.data(), 0, invalidSymbols.size()) != std::string::npos) {
+//        std::wcout << L"ERROR: Ім'я гравця містить заборонені символи. Повторіть введення нікнейму.\n";
+//        return false;
+//    } else if (nickName.size() < this->NICKNAME_MIN_LENGTH || nickName.size() > this->NICKNAME_MAX_LENGTH) {
+//        std::wcout << L"ERROR: Мінімальна довжина нікнейму - " << this->NICKNAME_MIN_LENGTH << L", максимальна довжина нікнейму - " << NICKNAME_MAX_LENGTH << L". Повторіть введення нікнейму.\n";
+//        return false;
+//    } else return true;
+//}
 
 std::string Game::GenerateWord(const std::string& filePath)
 {
     std::ifstream file(filePath);
 
     if (!file.is_open()) {
-        std::cout << "ERROR: Помилка відкриття файлу зі словами. Перевірте шлях до фалу та повторіть спробу.\n";
+        std::wcout << L"ERROR: Помилка відкриття файлу зі словами. Перевірте шлях до фалу та повторіть спробу.\n";
         return "";
     } else if (file.peek() == std::ifstream::traits_type::eof()) {
-        std::cout << "ERROR: Наразі файл зі словами пустий. Заповність файл словами та повторіть спробу.\n";
+        std::wcout << L"ERROR: Наразі файл зі словами пустий. Заповність файл словами та повторіть спробу.\n";
         return "";
     }
 
@@ -46,20 +45,20 @@ std::string Game::GenerateWord(const std::string& filePath)
         std::getline(file, line);
 
     if (line.find(' ') != std::string::npos) {
-        std::cout << "ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
+        std::wcout << L"ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
         return "";
     } else if (std::any_of(line.begin(), line.end(), ::isdigit)) {
-        std::cout << "ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
+        std::wcout << L"ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
         return "";
     } else if (line.find_first_of(invalidSymbols.data(), 0, invalidSymbols.size()) != std::string::npos) {
-        std::cout << "ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
+        std::wcout << L"ERROR: Слово містить заборонені символи. Перевірте правильність введеного слова та повторіть спробу.\n";
         return "";
     }
 
     return line;
 }
 
-std::string Game::GetPartOfWord(const std::string& word, int position, int lettersCount)
+std::wstring Game::GetPartOfWord(const std::wstring& word, int position, int lettersCount)
 {
     if (position < 0 || position >= static_cast<int>(word.length())) {
         throw std::out_of_range("ERROR: Позиція не має бути за межами заданого слова.\n");
@@ -88,12 +87,12 @@ bool Game::CheckLetterInWord(const std::string& word, char letter)
         }
 
         if (letterFound) {
-            std::cout << "Ви вгадали літеру.\n";
+            std::wcout << L"Ви вгадали літеру.\n";
             std::cout << result << std::endl;
         } else {
             ++attempts;
-            std::cout << "Ви не вгадали літеру. У вас залишилось " << 8 - attempts << " спроб.\n";
-            std::cout << "Шибениця на теперішній стан:\n";
+            std::wcout << L"Ви не вгадали літеру. У вас залишилось " << 8 - attempts << L" спроб.\n";
+            std::wcout << L"Шибениця на теперішній стан:\n";
 
             switch (attempts) {
             case 1:
@@ -127,7 +126,7 @@ bool Game::CheckLetterInWord(const std::string& word, char letter)
         }
 
         if (result == word) {
-            std::cout << "Вітаємо, ви вгадали усе слово!";
+            std::wcout << L"Вітаємо, ви вгадали усе слово!";
             found = true;
         }
     }
@@ -139,9 +138,9 @@ int Game::GetNumOfLettersInWord(const std::string& word)
 	return (int)word.length();
 }
 
-void Game::GameOver(const std::string& word)
+void Game::GameOver(const std::wstring& word)
 {
     DesignHangman dh;
-    std::cout << "Гру закінчено. Загадане слово: " << word << std::endl;
+    std::wcout << L"Гру закінчено. Загадане слово: " << word << std::endl;
     dh.HangmanStageEight();
 }
