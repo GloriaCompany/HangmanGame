@@ -1,4 +1,9 @@
-#pragma once
+#include "DesignDefine.h"
+#include <iostream>
+#include <io.h>
+#include <fcntl.h>
+#include <string>
+
 class DesignHangman {
 public:
 	void HangmanStageStart();

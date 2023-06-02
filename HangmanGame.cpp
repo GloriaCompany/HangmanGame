@@ -11,33 +11,73 @@ using namespace std;
 
 int main()
 {
-    wstring name = L"";
-    char letter;
-    string word;
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
     Game game;
-    Player player1;
-    Player player2;
+    Player firstPlayer, secondPlayer;
 
-    _setmode(_fileno(stdout), _O_WTEXT);
+    string playerNickName, generatedWord;
+    int userInput = 0;
+    char letter;
 
-    wcout << "Input name for player 1: ";
-    wcin >> name;
-    player1.setName(name);
+    do {
+        cout << "Меню\n1. Нова гра\n2. Вихід\nОберіть дію: ";
+        cin >> userInput;
+        if (cin.fail() || userInput < 1 || userInput > 2) {
+            cin.clear();
+            cin.ignore(100, '\n');
+            cout << "ERROR: Помилка вводу. Повторіть спробу, будь-ласка.\n";
+        }
+    } while (cin.fail() || userInput < 1 || userInput > 2);
+
     system("cls");
 
-    wcout << "Input name for player 2: ";
-    wcin >> name;
-    player2.setName(name);
-    system("cls");
+    switch (userInput) {
+    case 1:
+        do {
+            cout << "Введіть ім'я першого гравця: ";
+            cin >> playerNickName;
+            if (!game.ValidateNickname(playerNickName)) cout << "ERROR: Помилка введення нікнейму. Правила введення:\n1. Не менше 8 та не більше 15 символів"
+                "\n2. Не містить пробілів та наступних символів: " << game.getInvalidSymbols() << "\nПовторіть спробу, будь-ласка.\n";
+        } while (!game.ValidateNickname(playerNickName));
+        firstPlayer.setName(playerNickName);
 
-    word = game.GenerateWord(WORDS_FILE_PATH);
+        playerNickName = "";
 
-    for (int i = 0; i < game.GetNumOfLettersInWord(word); i++)
-    {
-        cout << "Letter: ";
-        cin >> letter;
-        game.CheckLetterInWord(word, letter);
+        do {
+            cout << "Введіть ім'я другого гравця: ";
+            cin >> playerNickName;
+            if (!game.ValidateNickname(playerNickName)) cout << "ERROR: Помилка введення нікнейму. Правила введення:\n1. Не менше 8 та не більше 15 символів"
+                "\n2. Не містить пробілів та наступних символів: " << game.getInvalidSymbols() << "\nПовторіть спробу, будь-ласка.\n";
+        } while (!game.ValidateNickname(playerNickName));
+        secondPlayer.setName(playerNickName);
+
+        system("cls");
+
+        cout << "Дані гравців:\n";
+        cout << "Перший гравець\n";
+        cout << "Ім'я: " << firstPlayer.getName();
+        cout << "\nПерший гравець\n";
+        cout << "Ім'я: " << secondPlayer.getName();
+
+        system("pause");
+        break;
+    case 2:
+        return 0;
+        break;
     }
+
+    system("cls");
+
+    generatedWord = game.GenerateWord("words.txt");
+    cout << generatedWord << '\n';
+
+    cout << game.GetPartOfWord(generatedWord, 0, 3) << '\n';
+    cout << game.GetNumOfLettersInWord(generatedWord) << '\n';
+    cout << "Letter: ";
+    cin >> letter;
+    game.CheckLetterInWord(generatedWord, letter);
 
     system("pause");
     return 0;

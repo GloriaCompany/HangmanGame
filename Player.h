@@ -4,15 +4,13 @@
 class Player
 {
 private:
-	std::wstring name;
+	std::string name;
 	int score;
 public:
-	std::wstring getName();
+	std::string getName();
 	int getScore();
 
-	void setName(std::wstring _name);
+	void setName(std::string& _name);
 	void setScore(int _score);
-
-	void Auth(std::wstring _name);
 };
 
