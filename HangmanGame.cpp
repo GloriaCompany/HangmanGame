@@ -153,6 +153,7 @@ int main()
                     cin >> count;
                     cout << "Отримана частина: " << game.GetPartOfWord(generatedWord, position, count) << '\n';
                     system("pause");
+                    system("cls");
                     break;
                 case 2:
                     system("cls");
