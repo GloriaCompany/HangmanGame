@@ -13,7 +13,6 @@ class Game
 {
 private:
 	const int NICKNAME_MIN_LENGTH = 5, NICKNAME_MAX_LENGTH = 15;
-	Player player1, player2;
 public:
 	Game();
 
@@ -21,8 +20,8 @@ public:
 	bool ValidateNickname(const std::string& nickName);
 	std::string GenerateWord(const std::string filePath);
 	std::string GetPartOfWord(const std::string& word, int position, int lettersCount);
-	void CheckLetterInWord(const std::string& word, char letter);
-	int GetNumOfLettersInWord(const std::string& word);
-	void GameOver(const std::string& word);
+	bool IsAllLettersGuessed(const std::string& word, const std::string& guessedWord);
+	void CheckLetterInWord(Player& player, const std::string& word, std::string& guessedWord, char letter);
+	void GameOver(Player& firstPlayer, Player& secondPlayer, const std::string& word);
 };
 

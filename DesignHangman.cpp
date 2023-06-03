@@ -16,6 +16,7 @@ void DesignHangman::HangmanStageStart() {
 }
 
 void DesignHangman::HangmanStageOne() {
+	std::cout << 1;
 	std::wcout
 		<< DGR << L"      ╭──────────┬───\n" << WHT
 		<< DGR << L"      │╱\n"
@@ -31,6 +32,7 @@ void DesignHangman::HangmanStageOne() {
 }
 
 void DesignHangman::HangmanStageTwo() {
+	std::cout << 2;
 	std::wcout
 		<< DGR << L"      ╭──────────┬───\n" << WHT
 		<< DGR << L"      │╱ " << WHT << L"        ┆\n"
@@ -46,6 +48,7 @@ void DesignHangman::HangmanStageTwo() {
 }
 
 void DesignHangman::HangmanStageThree() {
+	std::cout << 3;
 	std::wcout
 		<< DGR << L"      ╭──────────┬───\n" << WHT
 		<< DGR << L"      │╱ " << WHT << L"        ┆\n"
@@ -61,6 +64,7 @@ void DesignHangman::HangmanStageThree() {
 }
 
 void DesignHangman::HangmanStageFour() {
+	std::cout << 4;
 	std::wcout
 		<< DGR << L"      ╭──────────┬───\n" << WHT
 		<< DGR << L"      │╱ " << WHT << L"        ┆\n"
@@ -76,6 +80,7 @@ void DesignHangman::HangmanStageFour() {
 }
 
 void DesignHangman::HangmanStageFive() {
+	std::cout << 5;
 	std::wcout
 		<< DGR << L"      ╭──────────┬───\n" << WHT
 		<< DGR << L"      │╱ " << WHT << L"        ┆\n"
@@ -91,6 +96,7 @@ void DesignHangman::HangmanStageFive() {
 }
 
 void DesignHangman::HangmanStageSix() {
+	std::cout << 6;
 	std::wcout
 		<< DGR << L"      ╭──────────┬───\n" << WHT
 		<< DGR << L"      │╱ " << WHT << L"        ┆\n"
@@ -106,6 +112,7 @@ void DesignHangman::HangmanStageSix() {
 }
 
 void DesignHangman::HangmanStageSeven() {
+	std::cout << 7;
 	std::wcout
 		<< DGR << L"      ╭──────────┬───\n" << WHT
 		<< DGR << L"      │╱ " << WHT << L"        ┆\n"
@@ -121,6 +128,7 @@ void DesignHangman::HangmanStageSeven() {
 }
 
 void DesignHangman::HangmanStageEight() {
+	std::cout << 8;
 	std::wcout
 		<< DGR << L"      ╭──────────┬───\n" << WHT
 		<< DGR << L"      │╱ " << WHT << L"        ┆\n"

@@ -18,7 +18,7 @@ int main()
     Player firstPlayer, secondPlayer;
 
     string playerNickName, generatedWord;
-    int userInput = 0;
+    int userInput = 0, position, count;
     char letter;
 
     do {
@@ -36,48 +36,120 @@ int main()
     switch (userInput) {
     case 1:
         do {
-            cout << "Введіть ім'я першого гравця: ";
-            cin >> playerNickName;
-            if (!game.ValidateNickname(playerNickName)) cout << "ERROR: Помилка введення нікнейму. Правила введення:\n1. Не менше 8 та не більше 15 символів"
-                "\n2. Не містить пробілів та наступних символів: " << game.getInvalidSymbols() << "\nПовторіть спробу, будь-ласка.\n";
-        } while (!game.ValidateNickname(playerNickName));
-        firstPlayer.setName(playerNickName);
+            do {
+                cout << "Введіть ім'я першого гравця: ";
+                cin >> playerNickName;
+                if (!game.ValidateNickname(playerNickName)) cout << "ERROR: Помилка введення нікнейму. Правила введення:\n1. Не менше 8 та не більше 15 символів"
+                    "\n2. Не містить пробілів та наступних символів: " << game.getInvalidSymbols() << "\nПовторіть спробу, будь-ласка.\n";
+            } while (!game.ValidateNickname(playerNickName));
+            firstPlayer.setName(playerNickName);
 
-        playerNickName = "";
+            playerNickName = "";
 
-        do {
-            cout << "Введіть ім'я другого гравця: ";
-            cin >> playerNickName;
-            if (!game.ValidateNickname(playerNickName)) cout << "ERROR: Помилка введення нікнейму. Правила введення:\n1. Не менше 8 та не більше 15 символів"
-                "\n2. Не містить пробілів та наступних символів: " << game.getInvalidSymbols() << "\nПовторіть спробу, будь-ласка.\n";
-        } while (!game.ValidateNickname(playerNickName));
-        secondPlayer.setName(playerNickName);
+            do {
+                cout << "Введіть ім'я другого гравця: ";
+                cin >> playerNickName;
+                if (!game.ValidateNickname(playerNickName)) cout << "ERROR: Помилка введення нікнейму. Правила введення:\n1. Не менше 8 та не більше 15 символів"
+                    "\n2. Не містить пробілів та наступних символів: " << game.getInvalidSymbols() << "\nПовторіть спробу, будь-ласка.\n";
+            } while (!game.ValidateNickname(playerNickName));
+            secondPlayer.setName(playerNickName);
+
+            if (firstPlayer.getName() == secondPlayer.getName()) {
+                cout << "ERROR: Імена гравців не мають співпадати. Повторіть спробу, будь-ласка.\n";
+            }
+        } while (firstPlayer.getName() == secondPlayer.getName());
 
         system("cls");
 
         cout << "Дані гравців:\n";
         cout << "Перший гравець\n";
         cout << "Ім'я: " << firstPlayer.getName();
-        cout << "\nПерший гравець\n";
-        cout << "Ім'я: " << secondPlayer.getName();
-
-        system("pause");
+        cout << "\nДругий гравець\n";
+        cout << "Ім'я: " << secondPlayer.getName() << '\n';
         break;
     case 2:
         return 0;
         break;
     }
 
+    system("pause");
     system("cls");
 
     generatedWord = game.GenerateWord("words.txt");
-    cout << generatedWord << '\n';
+    cout << generatedWord;
 
-    cout << game.GetPartOfWord(generatedWord, 0, 3) << '\n';
-    cout << game.GetNumOfLettersInWord(generatedWord) << '\n';
-    cout << "Letter: ";
-    cin >> letter;
-    game.CheckLetterInWord(generatedWord, letter);
+    std::string guessedWord(generatedWord.length(), '_');
+
+    while (true) {
+        std::cout << "Черга гравця " << firstPlayer.getName() << '\n';
+        std::cout << "Введіть літеру: ";
+        std::cin >> letter;
+        game.CheckLetterInWord(firstPlayer, generatedWord, guessedWord, letter);
+        std::cout << "\nВідгадане слово: " << guessedWord << std::endl;
+        std::cout << std::endl;
+
+        system("pause");
+        system("cls");
+
+        if (game.IsAllLettersGuessed(generatedWord, guessedWord)) {
+            std::cout << "Всі букви вгадані! Гра закінчена." << std::endl;
+            std::cout << "Переможець: " << firstPlayer.getName() << std::endl;
+            break;
+        }
+
+        if (firstPlayer.getAttempts() <= 0) {
+            std::cout << "Переможець: " << secondPlayer.getName() << std::endl;
+            break;
+        }
+
+        std::cout << "Черга гравця " << secondPlayer.getName() << '\n';
+        std::cout << "Введіть літеру: ";
+        std::cin >> letter;
+        game.CheckLetterInWord(secondPlayer, generatedWord, guessedWord, letter);
+        std::cout << "\nВідгадане слово: " << guessedWord << std::endl;
+        std::cout << std::endl;
+
+        system("pause");
+        system("cls");
+
+        if (game.IsAllLettersGuessed(generatedWord, guessedWord)) {
+            std::cout << "Всі букви вгадані! Гра закінчена." << std::endl;
+            std::cout << "Переможець: " << secondPlayer.getName() << std::endl;
+            break;
+        }
+
+        if (secondPlayer.getAttempts() <= 0) {
+            std::cout << "Переможець: " << firstPlayer.getName() << std::endl;
+            break;
+        }
+
+        if (firstPlayer.getAttempts() <= 0 && secondPlayer.getAttempts() <= 0) {
+            std::cout << "Нічия! Обидва гравці використали всі спроби." << std::endl;
+            break;
+        }
+
+        if (firstPlayer.getAttempts() == 1 || secondPlayer.getAttempts() == 1) {
+            std::cout << "Ви можете отримати частину слова. Чи бажаєте ви це зробити?\n1. Так\n2. Ні\nВаш вибір: ";
+            userInput = 0;
+            cin >> userInput;
+
+            switch (userInput)
+            {
+            case 1:
+                cout << "Введіть позицію у слові: ";
+                cin >> position;
+                cout << "Введіть кількість літер: ";
+                cin >> count;
+                cout << "Отримана частина: " << game.GetPartOfWord(generatedWord, position, count) << '\n';
+                system("pause");
+                break;
+            case 2:
+                system("cls");
+                continue;
+                break;
+            }
+        }
+    }
 
     system("pause");
     return 0;

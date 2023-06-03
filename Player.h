@@ -5,12 +5,13 @@ class Player
 {
 private:
 	std::string name;
-	int score;
+	int attempts = 8;
 public:
 	std::string getName();
-	int getScore();
-
+	int getAttempts() const;
+	
 	void setName(std::string& _name);
-	void setScore(int _score);
+
+	void decrementAttempts();
 };
 

@@ -56,41 +56,86 @@ std::string Game::GetPartOfWord(const std::string& word, int position, int lette
     return word.substr(position, lettersCount);
 }
 
-void Game::CheckLetterInWord(const std::string& word, char firstLetter)
+bool Game::IsAllLettersGuessed(const std::string& word, const std::string& guessedWord) {
+    return (guessedWord.find('_') == std::string::npos);
+}
+
+void Game::CheckLetterInWord(Player& player, const std::string& word, std::string& guessedWord, char letter)
 {
     DesignHangman dh;
-    char letter = firstLetter;
 
-    for (int i = 0; i < 8; i++) {
-        if (word.find(letter) != std::string::npos) {
-            std::cout << "Вітаємо! Ви вгадали літеру!\n";
-            std::cout << "Введіть нову літеру: ";
-            std::cin >> letter;
-        } else {
-            switch (i) {
-                case 0: dh.HangmanStageOne(); break;
-                case 1: dh.HangmanStageTwo(); break;
-                case 2: dh.HangmanStageThree(); break;
-                case 3: dh.HangmanStageFour(); break;
-                case 4: dh.HangmanStageFive(); break;
-                case 5: dh.HangmanStageSix(); break;
-                case 6: dh.HangmanStageSeven(); break;
-                case 7: GameOver(word); return;
+    if (word.find(letter) != std::string::npos) {
+        std::cout << "Вітаємо! Ви вгадали літеру!\n";
+
+        for (size_t i = 0; i < word.length(); i++) {
+            if (word[i] == letter) {
+                guessedWord[i] = letter;
             }
-            std::cout << "Введіть літеру: ";
-            std::cin >> letter;
+        }
+    }
+    else {
+        player.decrementAttempts();
+
+        switch (player.getAttempts()) {
+        case 7:
+            dh.HangmanStageOne();
+            break;
+        case 6:
+            dh.HangmanStageTwo();
+            break;
+        case 5:
+            dh.HangmanStageThree();
+            break;
+        case 4:
+            dh.HangmanStageFour();
+            break;
+        case 3:
+            dh.HangmanStageFive();
+            break;
+        case 2:
+            dh.HangmanStageSix();
+            break;
+        case 1:
+            dh.HangmanStageSeven();
+            break;
+        case 0:
+            dh.HangmanStageEight();
+            break;
         }
     }
 }
 
-int Game::GetNumOfLettersInWord(const std::string& word)
-{
-	return (int)word.length();
-}
-
-void Game::GameOver(const std::string& word)
+void Game::GameOver(Player& firstPlayer, Player& secondPlayer, const std::string& word)
 {
     DesignHangman dh;
-    std::cout << L"Гру закінчено. Загадане слово: " << word << std::endl;
-    dh.HangmanStageEight();
+    std::cout << "Game Over\n";
+    std::cout << "Статус шибениць:\n";
+
+    std::cout << "Гравець " << firstPlayer.getName() << '\n';
+    switch (firstPlayer.getAttempts()) {
+        case 8: dh.HangmanStageEight(); break;
+        case 7: dh.HangmanStageOne(); break;
+        case 6: dh.HangmanStageTwo(); break;
+        case 5: dh.HangmanStageThree(); break;
+        case 4: dh.HangmanStageFour(); break;
+        case 3: dh.HangmanStageFive(); break;
+        case 2: dh.HangmanStageSix(); break;
+        case 1: dh.HangmanStageSeven(); break;
+        case 0: dh.HangmanStageEight(); break;
+    }
+
+    std::cout << "Гравець " << secondPlayer.getName() << '\n';
+    switch (secondPlayer.getAttempts()) {
+        case 8: dh.HangmanStageEight(); break;
+        case 7: dh.HangmanStageOne(); break;
+        case 6: dh.HangmanStageTwo(); break;
+        case 5: dh.HangmanStageThree(); break;
+        case 4: dh.HangmanStageFour(); break;
+        case 3: dh.HangmanStageFive(); break;
+        case 2: dh.HangmanStageSix(); break;
+        case 1: dh.HangmanStageSeven(); break;
+        case 0: dh.HangmanStageEight(); break;
+    }
+
+    system("pause");
 }
