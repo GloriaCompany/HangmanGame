@@ -22,6 +22,5 @@ public:
 	std::string GetPartOfWord(const std::string& word, int position, int lettersCount);
 	bool IsAllLettersGuessed(const std::string& word, const std::string& guessedWord);
 	void CheckLetterInWord(Player& player, const std::string& word, std::string& guessedWord, char letter);
-	void GameOver(Player& firstPlayer, Player& secondPlayer, const std::string& word);
 };
 

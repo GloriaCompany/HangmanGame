@@ -77,65 +77,14 @@ void Game::CheckLetterInWord(Player& player, const std::string& word, std::strin
         player.decrementAttempts();
 
         switch (player.getAttempts()) {
-        case 7:
-            dh.HangmanStageOne();
-            break;
-        case 6:
-            dh.HangmanStageTwo();
-            break;
-        case 5:
-            dh.HangmanStageThree();
-            break;
-        case 4:
-            dh.HangmanStageFour();
-            break;
-        case 3:
-            dh.HangmanStageFive();
-            break;
-        case 2:
-            dh.HangmanStageSix();
-            break;
-        case 1:
-            dh.HangmanStageSeven();
-            break;
-        case 0:
-            dh.HangmanStageEight();
-            break;
+        case 7: dh.HangmanStageOne(); break;
+        case 6: dh.HangmanStageTwo(); break;
+        case 5: dh.HangmanStageThree(); break;
+        case 4: dh.HangmanStageFour(); break;
+        case 3: dh.HangmanStageFive(); break;
+        case 2: dh.HangmanStageSix(); break;
+        case 1: dh.HangmanStageSeven(); break;
+        case 0: dh.HangmanStageEight(); break;
         }
     }
-}
-
-void Game::GameOver(Player& firstPlayer, Player& secondPlayer, const std::string& word)
-{
-    DesignHangman dh;
-    std::cout << "Game Over\n";
-    std::cout << "Статус шибениць:\n";
-
-    std::cout << "Гравець " << firstPlayer.getName() << '\n';
-    switch (firstPlayer.getAttempts()) {
-        case 8: dh.HangmanStageEight(); break;
-        case 7: dh.HangmanStageOne(); break;
-        case 6: dh.HangmanStageTwo(); break;
-        case 5: dh.HangmanStageThree(); break;
-        case 4: dh.HangmanStageFour(); break;
-        case 3: dh.HangmanStageFive(); break;
-        case 2: dh.HangmanStageSix(); break;
-        case 1: dh.HangmanStageSeven(); break;
-        case 0: dh.HangmanStageEight(); break;
-    }
-
-    std::cout << "Гравець " << secondPlayer.getName() << '\n';
-    switch (secondPlayer.getAttempts()) {
-        case 8: dh.HangmanStageEight(); break;
-        case 7: dh.HangmanStageOne(); break;
-        case 6: dh.HangmanStageTwo(); break;
-        case 5: dh.HangmanStageThree(); break;
-        case 4: dh.HangmanStageFour(); break;
-        case 3: dh.HangmanStageFive(); break;
-        case 2: dh.HangmanStageSix(); break;
-        case 1: dh.HangmanStageSeven(); break;
-        case 0: dh.HangmanStageEight(); break;
-    }
-
-    system("pause");
 }
