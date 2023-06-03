@@ -15,6 +15,7 @@ int main()
     SetConsoleOutputCP(1251);
 
     Game game;
+    DesignHangman dh;
     Player firstPlayer, secondPlayer;
 
     string playerNickName, generatedWord;
@@ -63,9 +64,15 @@ int main()
 
         cout << "Дані гравців:\n";
         cout << "Перший гравець\n";
-        cout << "Ім'я: " << firstPlayer.getName();
+        cout << "Ім'я: " << firstPlayer.getName() << '\n';
+        cout << "Статус шибениці:\n";
+        dh.HangmanStageStart();
+        cout << endl;
         cout << "\nДругий гравець\n";
         cout << "Ім'я: " << secondPlayer.getName() << '\n';
+        cout << "Статус шибениці:\n";
+        dh.HangmanStageStart();
+        cout << endl;
         break;
     case 2:
         return 0;
