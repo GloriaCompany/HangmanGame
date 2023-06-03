@@ -89,8 +89,6 @@ int main()
         }
 
         generatedWord = game.GenerateWord("words.txt");
-        cout << generatedWord;
-
         std::string guessedWord(generatedWord.length(), '_');
 
         while (true) {
