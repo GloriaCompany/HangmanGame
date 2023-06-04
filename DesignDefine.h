@@ -7,4 +7,4 @@
 #define MAG L"\033[0;35m" //Magenta
 #define CYN L"\033[0;36m" //Cyan
 #define WHT L"\033[0;37m" //White
-#define DGR L"\033[0;2m" //Dark grey
+#define DGR L"\033[0;2m"  //Dark grey

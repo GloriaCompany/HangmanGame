@@ -16,11 +16,11 @@ private:
 public:
 	Game();
 
-	std::string getInvalidSymbols();
-	bool ValidateNickname(const std::string& nickName);
-	std::string GenerateWord(const std::string filePath);
-	std::string GetPartOfWord(const std::string& word, int position, int lettersCount);
-	bool IsAllLettersGuessed(const std::string& word, const std::string& guessedWord);
-	void CheckLetterInWord(Player& player, const std::string& word, std::string& guessedWord, char letter);
+	std::wstring getInvalidSymbols();
+	bool ValidateNickname(const std::wstring& nickName);
+	std::wstring GenerateWord(const std::wstring filePath);
+	std::wstring GetPartOfWord(const std::wstring& word, int position, int lettersCount);
+	bool IsAllLettersGuessed(const std::wstring& word, const std::wstring& guessedWord);
+	void CheckLetterInWord(Player& player, const std::wstring& word, std::wstring& guessedWord, char letter);
 };
 

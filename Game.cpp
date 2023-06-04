@@ -1,29 +1,29 @@
 #include "Game.h"
 
 // Масив символів, що повинні валідуватися
-const std::string invalidSymbols = "!@./[]()$%^&*:;`<>,-+№?";
+const std::wstring invalidSymbols = L"!@./[]()$%^&*:;`<>,-+№?";
 
 Game::Game() {}
 
-std::string Game::getInvalidSymbols() { return invalidSymbols; }
+std::wstring Game::getInvalidSymbols() { return invalidSymbols; }
 
-bool Game::ValidateNickname(const std::string& nickname)
+bool Game::ValidateNickname(const std::wstring& nickname)
 {
     for (char symbol : invalidSymbols)
-        if (nickname.find(symbol) != std::string::npos)
+        if (nickname.find(symbol) != std::wstring::npos)
             return false;
 
-    if (nickname.find(' ') != std::string::npos) return false;
+    if (nickname.find(L' ') != std::wstring::npos) return false;
     else if (nickname.size() < this->NICKNAME_MIN_LENGTH || nickname.size() > this->NICKNAME_MAX_LENGTH) return false;
     
     return true;
 }
 
-std::string Game::GenerateWord(const std::string filePath)
+std::wstring Game::GenerateWord(const std::wstring filePath)
 {
-    std::ifstream file(filePath);
-    std::vector<std::string> words;
-    std::string word;
+    std::wifstream file(filePath); // Используем std::wifstream для чтения файла с широкими символами
+    std::vector<std::wstring> words;
+    std::wstring word;
 
     if (file.is_open()) {
         while (std::getline(file, word)) {
@@ -35,37 +35,37 @@ std::string Game::GenerateWord(const std::string filePath)
         if (!words.empty()) {
             std::srand(static_cast<unsigned int>(std::time(nullptr)));
             int randomIndex = std::rand() % words.size();
-            return words[randomIndex];
+            return words[randomIndex]; // Нет необходимости приводить к std::wstring
         }
-    } else {
-        std::cout << "ERROR: Помилка відкриттся файлу. Перевірте стан бази зі словами та повторіть спробу.\n";
-        return "";
+    }
+    else {
+        std::wcout << RED << L"ERROR: Помилка відкриття файлу. Перевірте стан бази зі словами та повторіть спробу.\n" << WHT;
     }
 
-    return "";
+    return L"";
 }
 
-std::string Game::GetPartOfWord(const std::string& word, int position, int lettersCount)
+std::wstring Game::GetPartOfWord(const std::wstring& word, int position, int lettersCount)
 {
     if (position < 0 || position >= static_cast<int>(word.length())) {
-        throw std::out_of_range("ERROR: Позиція не має бути за межами заданого слова.\n");
+        std::wcout << L"ERROR: Позиція не має бути за межами заданого слова.\n";
     } else if (lettersCount < 0 || lettersCount > static_cast<int>(word.length()) - position) {
-        throw std::out_of_range("ERROR: Кількість зчитуваних літер не має бути за межами заданого слова.\n");
+        std::wcout << L"ERROR: Кількість зчитуваних літер не має бути за межами заданого слова.\n";
     }
 
     return word.substr(position, lettersCount);
 }
 
-bool Game::IsAllLettersGuessed(const std::string& word, const std::string& guessedWord) {
-    return (guessedWord.find('_') == std::string::npos);
+bool Game::IsAllLettersGuessed(const std::wstring& word, const std::wstring& guessedWord) {
+    return (guessedWord.find('_') == std::wstring::npos);
 }
 
-void Game::CheckLetterInWord(Player& player, const std::string& word, std::string& guessedWord, char letter)
+void Game::CheckLetterInWord(Player& player, const std::wstring& word, std::wstring& guessedWord, char letter)
 {
     DesignHangman dh;
 
-    if (word.find(letter) != std::string::npos) {
-        std::cout << "Вітаємо! Ви вгадали літеру!\n";
+    if (word.find(letter) != std::wstring::npos) {
+        std::cout << L"Вітаємо! Ви вгадали літеру!\n";
 
         for (size_t i = 0; i < word.length(); i++) {
             if (word[i] == letter) {

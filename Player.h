@@ -4,13 +4,13 @@
 class Player
 {
 private:
-	std::string name;
+	std::wstring name;
 	int attempts = 8;
 public:
-	std::string getName();
+	std::wstring getName();
 	int getAttempts() const;
 	
-	void setName(std::string& _name);
+	void setName(std::wstring& _name);
 
 	void decrementAttempts();
 };
