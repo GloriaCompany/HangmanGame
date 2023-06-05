@@ -219,25 +219,71 @@ int main()
             }
 
             if (firstPlayer.getAttempts() == 1 || secondPlayer.getAttempts() == 1) {
-                wcout
-                    << WHT
-                    << L"╭────────────────────────────────────────────╮\n"
-                    << L"│" << GRN << L"      Ви бажаєте отримати частину слова?    " << WHT << L"│\n"
-                    << L"├────────────────────────────────────────────┤\n"
-                    << L"│" << CYN << L" 1. " << GRN << L"Так                                     " << WHT << L"│\n"
-                    << L"│" << CYN << L" 2. " << GRN << L"Ні                                      " << WHT << L"│\n"
-                    << L"╰────────────────────────────────────────────╯\n"
-                    << L" Ваш вибір: " << CYN;
-                userInput = 0;
-                wcin >> userInput;
+                do {
+                    wcout
+                        << WHT
+                        << L"╭────────────────────────────────────────────╮\n"
+                        << L"│" << GRN << L"      Ви бажаєте отримати частину слова?    " << WHT << L"│\n"
+                        << L"├────────────────────────────────────────────┤\n"
+                        << L"│" << CYN << L" 1. " << GRN << L"Так                                     " << WHT << L"│\n"
+                        << L"│" << CYN << L" 2. " << GRN << L"Ні                                      " << WHT << L"│\n"
+                        << L"╰────────────────────────────────────────────╯\n"
+                        << L" Ваш вибір: " << CYN;
+                    userInput = 0;
+                    wcin >> userInput;
+                    if (wcin.fail() || userInput < 1 || userInput > 2) {
+                        system("cls");
+                        wcin.clear();
+                        wcin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        wcout
+                            << WHT
+                            << L"╭──────────────────────────────────╮\n"
+                            << L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
+                            << L"├──────────────────────────────────┤\n"
+                            << L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
+                            << L"╰──────────────────────────────────╯\n";
+                    }
+                } while (wcin.fail() || userInput < 1 || userInput > 2);
+
+                system("cls");
 
                 switch (userInput)
                 {
                 case 1:
-                    wcout << WHT << L"Введіть позицію у слові: " << CYN;
-                    wcin >> position;
-                    wcout << WHT << L"Введіть кількість літер: " << CYN;
-                    wcin >> count;
+                    do {
+                        wcout << WHT << L" Введіть позицію у слові: " << CYN;
+                        wcin >> position;
+                        if (wcin.fail() || position < 0 || position > generatedWord.size() - 1) {
+                            system("cls");
+                            wcin.clear();
+                            wcin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            wcout
+                                << WHT
+                                << L"╭──────────────────────────────────╮\n"
+                                << L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
+                                << L"├──────────────────────────────────┤\n"
+                                << L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
+                                << L"╰──────────────────────────────────╯\n";
+                        }
+                    } while (wcin.fail() || position < 0 || position > generatedWord.size() - 1);
+                    
+                    do {
+                        wcout << WHT << L" Введіть кількість літер: " << CYN;
+                        wcin >> count;
+                        if (wcin.fail() || count < 1 || count > generatedWord.size() - position) {
+                            system("cls");
+                            wcin.clear();
+                            wcin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            wcout
+                                << WHT
+                                << L"╭──────────────────────────────────╮\n"
+                                << L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
+                                << L"├──────────────────────────────────┤\n"
+                                << L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
+                                << L"╰──────────────────────────────────╯\n";
+                        }
+                    } while (wcin.fail() || count < 1 || count > generatedWord.size() - position);
+                    
                     wcout << WHT << L"Отримана частина: " << CYN << game.GetPartOfWord(generatedWord, position, count) << WHT << L'\n';
                     system("pause");
                     system("cls");

@@ -34,13 +34,14 @@ std::wstring Game::GenerateWord(const std::wstring filePath)
 
         file.close();
 
-        if (!words.empty()) {
+        if (words.empty()) {
+            std::wcout << RED << L"ERROR: Помилка зчитування файлу. Перевірте стан бази зі словами та повторіть спробу.\n" << WHT;
+        } else {
             std::srand(static_cast<unsigned int>(std::time(nullptr)));
             int randomIndex = std::rand() % words.size();
             return words[randomIndex];
         }
-    }
-    else {
+    } else {
         std::wcout << RED << L"ERROR: Помилка відкриття файлу. Перевірте стан бази зі словами та повторіть спробу.\n" << WHT;
     }
 
@@ -74,19 +75,18 @@ void Game::CheckLetterInWord(Player& player, const std::wstring& word, std::wstr
                 guessedWord[i] = letter;
             }
         }
-    }
-    else {
+    } else {
         player.decrementAttempts();
 
         switch (player.getAttempts()) {
-        case 7: dh.HangmanStageOne(); break;
-        case 6: dh.HangmanStageTwo(); break;
-        case 5: dh.HangmanStageThree(); break;
-        case 4: dh.HangmanStageFour(); break;
-        case 3: dh.HangmanStageFive(); break;
-        case 2: dh.HangmanStageSix(); break;
-        case 1: dh.HangmanStageSeven(); break;
-        case 0: dh.HangmanStageEight(); break;
+            case 7: dh.HangmanStageOne(); break;
+            case 6: dh.HangmanStageTwo(); break;
+            case 5: dh.HangmanStageThree(); break;
+            case 4: dh.HangmanStageFour(); break;
+            case 3: dh.HangmanStageFive(); break;
+            case 2: dh.HangmanStageSix(); break;
+            case 1: dh.HangmanStageSeven(); break;
+            case 0: dh.HangmanStageEight(); break;
         }
     }
 }
