@@ -10,11 +10,12 @@ std::wstring Game::getInvalidSymbols() { return invalidSymbols; }
 bool Game::ValidateNickname(const std::wstring& nickname)
 {
     for (wchar_t symbol : invalidSymbols)
-        if (nickname.find(symbol) != std::wstring::npos || nickname.find(L' ') != std::wstring::npos)
+        if (nickname.find(symbol) != std::wstring::npos)
             return false;
 
-    if (nickname.size() < this->NICKNAME_MIN_LENGTH || nickname.size() > this->NICKNAME_MAX_LENGTH) return false;
-    
+    if (nickname.size() < NICKNAME_MIN_LENGTH || nickname.size() > NICKNAME_MAX_LENGTH) return false;
+    if (nickname.find(' ') != std::wstring::npos) return false;
+
     return true;
 }
 
