@@ -1,7 +1,7 @@
 ﻿#include "Game.h"
 
-// Масив символів, що повинні валідуватися
 const std::wstring invalidSymbols = L"!@./[]()$%^&*:;`<>,-+№?";
+const int MIN_INDEX = 0;
 
 Game::Game() {}
 
@@ -50,9 +50,9 @@ std::wstring Game::GenerateWord(const std::wstring filePath)
 
 std::wstring Game::GetPartOfWord(const std::wstring& word, int position, int lettersCount)
 {
-    if (position < 0 || position >= static_cast<int>(word.length())) {
+    if (position < MIN_INDEX || position >= static_cast<int>(word.length())) {
         std::wcout << L"ERROR: Позиція не має бути за межами заданого слова.\n";
-    } else if (lettersCount < 0 || lettersCount > static_cast<int>(word.length()) - position) {
+    } else if (lettersCount < MIN_INDEX || lettersCount > static_cast<int>(word.length()) - position) {
         std::wcout << L"ERROR: Кількість зчитуваних літер не має бути за межами заданого слова.\n";
     }
 
@@ -70,7 +70,7 @@ void Game::CheckLetterInWord(Player& player, const std::wstring& word, std::wstr
     if (word.find(letter) != std::wstring::npos) {
         std::wcout << YEL <<L" Вітаємо! Ви вгадали літеру!\n" << WHT;
 
-        for (size_t i = 0; i < word.length(); i++) {
+        for (size_t i = MIN_INDEX; i < word.length(); i++) {
             if (word[i] == letter) {
                 guessedWord[i] = letter;
             }

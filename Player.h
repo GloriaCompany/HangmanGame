@@ -11,6 +11,7 @@ public:
 	int getAttempts() const;
 	
 	void setName(std::wstring& _name);
+	void setAttempts(int attempts);
 
 	void decrementAttempts();
 };

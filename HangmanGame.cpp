@@ -11,298 +11,310 @@ using namespace std;
 
 int main()
 {
-    _setmode(_fileno(stdout), _O_WTEXT);
-    _setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	_setmode(_fileno(stdin), _O_WTEXT);
 
-    Game game;
-    DesignHangman dh;
-    Player firstPlayer, secondPlayer;
+	Game game;
+	DesignHangman dh;
+	Player firstPlayer, secondPlayer;
 
-    wstring playerNickName, generatedWord;
-    int userInput = 0, position, count;
-    wchar_t letter;
+	wstring playerNickName, generatedWord;
+	int userInput = 0, position, count;
+	wchar_t letter;
 
-    bool inMainMenu = true;
+	bool inMainMenu = true, flag = true;
 
-    while (inMainMenu) {
-        do {
-            wcout
-                << WHT
-                << L"╭──────────────────────────────────╮\n"
-                << L"│" << RED << L"              Меню                " << WHT << L"│\n"
-                << L"├──────────────────────────────────┤\n"
-                << L"│" << CYN << L" 1. " << GRN << L"Нова гра                      " << WHT << L"│\n"
-                << L"│" << CYN << L" 2. " << GRN << L"Вихід                         " << WHT << L"│\n"
-                << L"╰──────────────────────────────────╯\n"
-                << L" Оберіть опцію (1 - 2): " << CYN;
-            wcin >> userInput;
-            if (wcin.fail() || userInput < 1 || userInput > 2) {
-                system("cls");
-                wcin.clear();
-                wcin.ignore(numeric_limits<streamsize>::max(), '\n');
-                wcout
-                    << WHT
-                    << L"╭──────────────────────────────────╮\n"
-                    << L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
-                    << L"├──────────────────────────────────┤\n"
-                    << L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
-                    << L"╰──────────────────────────────────╯\n";
-            }
-        } while (wcin.fail() || userInput < 1 || userInput > 2);
+	while (inMainMenu) {
+		do {
+			wcout
+				<< WHT
+				<< L"╭──────────────────────────────────╮\n"
+				<< L"│" << RED << L"              Меню                " << WHT << L"│\n"
+				<< L"├──────────────────────────────────┤\n"
+				<< L"│" << CYN << L" 1. " << GRN << L"Нова гра                      " << WHT << L"│\n"
+				<< L"│" << CYN << L" 2. " << GRN << L"Вихід                         " << WHT << L"│\n"
+				<< L"╰──────────────────────────────────╯\n"
+				<< L" Оберіть опцію (1 - 2): " << CYN;
+			wcin >> userInput;
+			if (wcin.fail() || userInput < 1 || userInput > 2) {
+				system("cls");
+				wcin.clear();
+				wcin.ignore(numeric_limits<streamsize>::max(), '\n');
+				wcout
+					<< WHT
+					<< L"╭──────────────────────────────────╮\n"
+					<< L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
+					<< L"├──────────────────────────────────┤\n"
+					<< L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
+					<< L"╰──────────────────────────────────╯\n";
+			}
+		} while (wcin.fail() || userInput < 1 || userInput > 2);
 
-        system("cls");
+		system("cls");
 
-        switch (userInput) {
-        case 1:
-            do {
-                do {
-                    wcout << WHT << L"Введіть ім'я першого гравця: " << CYN;
-                    wcin >> playerNickName;
-                    if (!game.ValidateNickname(playerNickName)) {
-                        system("cls");
-                        wcout << WHT
-                            << L"╭───────────────────────────────────────────────╮\n"
-                            << L"│" << RED << L"\tERROR: Помилка введення нікнейму\t" << WHT << L"│\n"
-                            << L"├───────────────────────────────────────────────┤\n"
-                            << L"│" << CYN << L" 1. " << GRN << L"Не менше 5 та не більше 15 символів" << WHT << L"\t│\n"
-                            << L"│" << CYN << L" 2. " << GRN << L"Не містить пробілів та наступних символів:" << WHT << L"\t│\n"
-                            << L"│" << CYN << L"\t" << game.getInvalidSymbols() << WHT << L"\t\t\t│\n"
-                            << L"├───────────────────────────────────────────────┤\n"
-                            << L"│" << MAG << L"\tПовторіть спробу, будь-ласка" << WHT << L"\t\t│\n"
-                            << L"╰───────────────────────────────────────────────╯\n";
-                    }
-                } while (!game.ValidateNickname(playerNickName));
-                firstPlayer.setName(playerNickName);
+		switch (userInput) {
+		case 1:
+			do {
+				playerNickName = L"";
 
-                playerNickName = L"";
+				do {
+					wcout << WHT << L"Введіть ім'я першого гравця: " << CYN;
+					wcin >> playerNickName;
+					if (!game.ValidateNickname(playerNickName)) {
+						system("cls");
+						wcout << WHT
+							<< L"╭───────────────────────────────────────────────╮\n"
+							<< L"│" << RED << L"\tERROR: Помилка введення нікнейму\t" << WHT << L"│\n"
+							<< L"├───────────────────────────────────────────────┤\n"
+							<< L"│" << CYN << L" 1. " << GRN << L"Не менше 5 та не більше 15 символів" << WHT << L"\t│\n"
+							<< L"│" << CYN << L" 2. " << GRN << L"Не містить пробілів та наступних символів:" << WHT << L"\t│\n"
+							<< L"│" << CYN << L"\t" << game.getInvalidSymbols() << WHT << L"\t\t\t│\n"
+							<< L"├───────────────────────────────────────────────┤\n"
+							<< L"│" << MAG << L"\tПовторіть спробу, будь-ласка" << WHT << L"\t\t│\n"
+							<< L"╰───────────────────────────────────────────────╯\n";
+					}
+				} while (!game.ValidateNickname(playerNickName));
+				firstPlayer.setName(playerNickName);
 
-                do {
-                    wcout << WHT << L"Введіть ім'я другого гравця: " << CYN;
-                    wcin >> playerNickName;
-                    if (!game.ValidateNickname(playerNickName)) {
-                        system("cls");
-                        wcout << WHT
-                            << L"╭───────────────────────────────────────────────╮\n"
-                            << L"│" << RED << L"\tERROR: Помилка введення нікнейму\t" << WHT << L"│\n"
-                            << L"├───────────────────────────────────────────────┤\n"
-                            << L"│" << CYN << L" 1. " << GRN << L"Не менше 8 та не більше 15 символів" << WHT << L"\t│\n"
-                            << L"│" << CYN << L" 2. " << GRN << L"Не містить пробілів та наступних символів:" << WHT << L"\t│\n"
-                            << L"│" << CYN << L"\t" << game.getInvalidSymbols() << WHT << L"\t\t\t│\n"
-                            << L"├───────────────────────────────────────────────┤\n"
-                            << L"│" << MAG << L"\tПовторіть спробу, будь-ласка." << WHT << L"\t\t│\n"
-                            << L"╰───────────────────────────────────────────────╯\n";
-                    }
-                } while (!game.ValidateNickname(playerNickName));
-                secondPlayer.setName(playerNickName);
+				playerNickName = L"";
 
-                if (firstPlayer.getName() == secondPlayer.getName()) {
-                    system("cls");
-                    wcout
-                        << WHT
-                        << L"╭───────────────────────────────────────────────────────────╮\n"
-                        << L"│" << RED << L"ERROR: Імена гравців співпадають. Повторіть спробу, будь-ласка.\t" << WHT << L"│\n"
-                        << L"╰───────────────────────────────────────────────────────────╯\n";
-                }
-            } while (firstPlayer.getName() == secondPlayer.getName());
+				do {
+					wcout << WHT << L"Введіть ім'я другого гравця: " << CYN;
+					wcin >> playerNickName;
+					if (!game.ValidateNickname(playerNickName)) {
+						system("cls");
+						wcout << WHT
+							<< L"╭───────────────────────────────────────────────╮\n"
+							<< L"│" << RED << L"\tERROR: Помилка введення нікнейму\t" << WHT << L"│\n"
+							<< L"├───────────────────────────────────────────────┤\n"
+							<< L"│" << CYN << L" 1. " << GRN << L"Не менше 8 та не більше 15 символів" << WHT << L"\t│\n"
+							<< L"│" << CYN << L" 2. " << GRN << L"Не містить пробілів та наступних символів:" << WHT << L"\t│\n"
+							<< L"│" << CYN << L"\t" << game.getInvalidSymbols() << WHT << L"\t\t\t│\n"
+							<< L"├───────────────────────────────────────────────┤\n"
+							<< L"│" << MAG << L"\tПовторіть спробу, будь-ласка." << WHT << L"\t\t│\n"
+							<< L"╰───────────────────────────────────────────────╯\n";
+					}
+				} while (!game.ValidateNickname(playerNickName));
+				secondPlayer.setName(playerNickName);
 
-            system("cls");
-            wcout
-                << WHT
-                << L"╭──────────────────────────────────╮\n"
-                << L"│" << GRN << L"          Дані гравців            " << WHT << L"│\n"
-                << L"├──────────────────────────────────┤\n"
-                << L"│" << CYN << L" Гравець 1: " << MAG << firstPlayer.getName() << "             " << WHT << L"│\n"
-                << L"│" << CYN << L" Гравець 2: " << MAG << secondPlayer.getName() << "             " << WHT << L"│\n"
-                << L"╰──────────────────────────────────╯\n";
-            break;
-        case 2:
-            inMainMenu = false;
-            break;
-        }
+				if (firstPlayer.getName() == secondPlayer.getName()) {
+					system("cls");
+					wcout
+						<< WHT
+						<< L"╭───────────────────────────────────────────────────────────╮\n"
+						<< L"│" << RED << L"ERROR: Імена гравців співпадають. Повторіть спробу, будь-ласка.\t" << WHT << L"│\n"
+						<< L"╰───────────────────────────────────────────────────────────╯\n";
+				}
+			} while (firstPlayer.getName() == secondPlayer.getName());
 
-        system("pause");
-        system("cls");
+			firstPlayer.setAttempts(8);
+			secondPlayer.setAttempts(8);
 
-        if (!inMainMenu) {
-            continue;
-        }
+			system("cls");
+			wcout
+				<< WHT
+				<< L"╭──────────────────────────────────╮\n"
+				<< L"│" << GRN << L"          Дані гравців            " << WHT << L"│\n"
+				<< L"├──────────────────────────────────┤\n"
+				<< L"│" << CYN << L" Гравець 1: " << MAG << firstPlayer.getName() << "             " << WHT << L"│\n"
+				<< L"│" << CYN << L" Гравець 2: " << MAG << secondPlayer.getName() << "             " << WHT << L"│\n"
+				<< L"╰──────────────────────────────────╯\n";
+			break;
+		case 2:
+			inMainMenu = false;
+			break;
+		}
 
-        generatedWord = game.GenerateWord(L"words.txt");
-        wstring guessedWord(generatedWord.length(), L'_');
+		system("pause");
+		system("cls");
 
-        while (true) {
-            wcout
-                << WHT
-                << L"╭──────────────────────────────────╮\n"
-                << L"│" << GRN << L"     Черга гравця: " << CYN << firstPlayer.getName() << "      " << WHT << L"│\n"
-                << L"╰──────────────────────────────────╯\n"
-                << L" Введіть літеру: " << CYN;
-            wcin >> letter;
-            game.CheckLetterInWord(firstPlayer, generatedWord, guessedWord, letter);
-            wcout << L"\nВідгадане слово: " << guessedWord << endl;
-            wcout << endl;
+		if (!inMainMenu) {
+			continue;
+		}
 
-            system("pause");
-            system("cls");
+		generatedWord = game.GenerateWord(L"words.txt");
+		wstring guessedWord(generatedWord.length(), L'_');
 
-            if (game.IsAllLettersGuessed(generatedWord, guessedWord)) {
-                wcout
-                    << WHT
-                    << L"╭────────────────────────────────────────────╮\n"
-                    << L"│" << GRN << L"       Всі букви вгадані! Гра закінчена      " << WHT << L"│\n"
-                    << L"├────────────────────────────────────────────┤\n"
-                    << L"│" << GRN << L" Переможець: " << YEL << firstPlayer.getName() << "                      " << WHT << L"│\n"
-                    << L"│" << GRN << L" Програвший: " << RED << secondPlayer.getName() << "                      " << WHT << L"│\n"
-                    << L"│" << GRN << L" Загадане слово: " << MAG << generatedWord << "                      " << WHT << L"│\n"
-                    << L"╰────────────────────────────────────────────╯\n";
-                break;
-            }
+		while (true) {
+			wcout
+				<< WHT
+				<< L"╭──────────────────────────────────╮\n"
+				<< L"│" << GRN << L"     Черга гравця: " << CYN << firstPlayer.getName() << "      " << WHT << L"│\n"
+				<< L"╰──────────────────────────────────╯\n"
+				<< L" Введіть літеру: " << CYN;
+			wcin >> letter;
+			game.CheckLetterInWord(firstPlayer, generatedWord, guessedWord, letter);
+			wcout << L"\nВідгадане слово: " << guessedWord << endl;
+			wcout << endl;
 
-            if (firstPlayer.getAttempts() <= 0) {
-               wcout
-                    << WHT
-                    << L"╭────────────────────────────────────────────╮\n"
-                    << L"│" << GRN << L"                  Гра закінчена             " << WHT << L"│\n"      
-                    << L"├────────────────────────────────────────────┤\n"
-                    << L"│" << GRN << L" Переможець: " << YEL << secondPlayer.getName() << "                      " << WHT << L"│\n"
-                    << L"│" << GRN << L" Програвший: " << RED << firstPlayer.getName() << "                      " << WHT << L"│\n"
-                    << L"│" << GRN << L" Загадане слово: " << MAG << generatedWord << "                      " << WHT << L"│\n"
-                    << L"╰────────────────────────────────────────────╯\n";
-                break;
-            }
+			system("pause");
+			system("cls");
 
-            wcout
-                << WHT
-                << L"╭──────────────────────────────────╮\n"
-                << L"│" << GRN << L"     Черга гравця: " << CYN << secondPlayer.getName() << "      " << WHT << L"│\n"
-                << L"╰──────────────────────────────────╯\n"
-                << L" Введіть літеру: " << CYN;
-            wcin >> letter;
-            game.CheckLetterInWord(secondPlayer, generatedWord, guessedWord, letter);
-            wcout << L"\nВідгадане слово: " << guessedWord << endl;
-            wcout << endl;
+			if (game.IsAllLettersGuessed(generatedWord, guessedWord)) {
+				wcout
+					<< WHT
+					<< L"╭────────────────────────────────────────────╮\n"
+					<< L"│" << GRN << L"       Всі букви вгадані! Гра закінчена      " << WHT << L"│\n"
+					<< L"├────────────────────────────────────────────┤\n"
+					<< L"│" << GRN << L" Переможець: " << YEL << firstPlayer.getName() << "                      " << WHT << L"│\n"
+					<< L"│" << GRN << L" Програвший: " << RED << secondPlayer.getName() << "                      " << WHT << L"│\n"
+					<< L"│" << GRN << L" Загадане слово: " << MAG << generatedWord << "                      " << WHT << L"│\n"
+					<< L"╰────────────────────────────────────────────╯\n";
+				system("pause");
+				break;
+			}
 
-            system("pause");
-            system("cls");
+			if (firstPlayer.getAttempts() <= 0) {
+				wcout
+					<< WHT
+					<< L"╭────────────────────────────────────────────╮\n"
+					<< L"│" << GRN << L"                  Гра закінчена             " << WHT << L"│\n"
+					<< L"├────────────────────────────────────────────┤\n"
+					<< L"│" << GRN << L" Переможець: " << YEL << secondPlayer.getName() << "                      " << WHT << L"│\n"
+					<< L"│" << GRN << L" Програвший: " << RED << firstPlayer.getName() << "                      " << WHT << L"│\n"
+					<< L"│" << GRN << L" Загадане слово: " << MAG << generatedWord << "                      " << WHT << L"│\n"
+					<< L"╰────────────────────────────────────────────╯\n";
+				system("pause");
+				break;
+			}
 
-            if (game.IsAllLettersGuessed(generatedWord, guessedWord)) {
-                wcout
-                    << WHT
-                    << L"╭────────────────────────────────────────────╮\n"
-                    << L"│" << GRN << L"     Всі букви вгадані! Гра закінчена       " << WHT << L"│\n"
-                    << L"├────────────────────────────────────────────┤\n"
-                    << L"│" << GRN << L" Переможець: " << YEL << secondPlayer.getName() << "                      " << WHT << L"│\n"
-                    << L"│" << GRN << L" Програвший: " << RED << firstPlayer.getName() << "                      " << WHT << L"│\n"
-                    << L"│" << GRN << L" Загадане слово: " << MAG << generatedWord << "                      " << WHT << L"│\n"
-                    << L"╰────────────────────────────────────────────╯\n";
-                break;
-            }
+			wcout
+				<< WHT
+				<< L"╭──────────────────────────────────╮\n"
+				<< L"│" << GRN << L"     Черга гравця: " << CYN << secondPlayer.getName() << "      " << WHT << L"│\n"
+				<< L"╰──────────────────────────────────╯\n"
+				<< L" Введіть літеру: " << CYN;
+			wcin >> letter;
+			game.CheckLetterInWord(secondPlayer, generatedWord, guessedWord, letter);
+			wcout << L"\nВідгадане слово: " << guessedWord << endl;
+			wcout << endl;
 
-            if (secondPlayer.getAttempts() <= 0) {
-                wcout
-                    << WHT
-                    << L"╭────────────────────────────────────────────╮\n"
-                    << L"│" << GRN << L"                  Гра закінчена                  " << WHT << L"│\n"
-                    << L"├────────────────────────────────────────────┤\n"
-                    << L"│" << GRN << L" Переможець: " << YEL << firstPlayer.getName() << "                      " << WHT << L"│\n"
-                    << L"│" << GRN << L" Програвший: " << RED << secondPlayer.getName() << "                      " << WHT << L"│\n"
-                    << L"│" << GRN << L" Загадане слово: " << MAG << generatedWord << "                      " << WHT << L"│\n"
-                    << L"╰────────────────────────────────────────────╯\n";
-                break;
-            }
+			system("pause");
+			system("cls");
 
-            if (firstPlayer.getAttempts() <= 0 && secondPlayer.getAttempts() <= 0) {
-                wcout
-                    << WHT
-                    << L"╭────────────────────────────────────────────╮\n"
-                    << L"│" << GRN << L"                    Нічия!                  " << WHT << L"│\n"    
-                    << L"├────────────────────────────────────────────┤\n"
-                    << L"│" << YEL << " Обидва гравці використали всі спроби       " << WHT << L"│\n"
-                    << L"╰────────────────────────────────────────────╯\n";
-                break;
-            }
+			if (game.IsAllLettersGuessed(generatedWord, guessedWord)) {
+				wcout
+					<< WHT
+					<< L"╭────────────────────────────────────────────╮\n"
+					<< L"│" << GRN << L"     Всі букви вгадані! Гра закінчена       " << WHT << L"│\n"
+					<< L"├────────────────────────────────────────────┤\n"
+					<< L"│" << GRN << L" Переможець: " << YEL << secondPlayer.getName() << "                      " << WHT << L"│\n"
+					<< L"│" << GRN << L" Програвший: " << RED << firstPlayer.getName() << "                      " << WHT << L"│\n"
+					<< L"│" << GRN << L" Загадане слово: " << MAG << generatedWord << "                      " << WHT << L"│\n"
+					<< L"╰────────────────────────────────────────────╯\n";
+				system("pause");
+				break;
+			}
 
-            if (firstPlayer.getAttempts() == 1 || secondPlayer.getAttempts() == 1) {
-                do {
-                    wcout
-                        << WHT
-                        << L"╭────────────────────────────────────────────╮\n"
-                        << L"│" << GRN << L"      Ви бажаєте отримати частину слова?    " << WHT << L"│\n"
-                        << L"├────────────────────────────────────────────┤\n"
-                        << L"│" << CYN << L" 1. " << GRN << L"Так                                     " << WHT << L"│\n"
-                        << L"│" << CYN << L" 2. " << GRN << L"Ні                                      " << WHT << L"│\n"
-                        << L"╰────────────────────────────────────────────╯\n"
-                        << L" Ваш вибір: " << CYN;
-                    userInput = 0;
-                    wcin >> userInput;
-                    if (wcin.fail() || userInput < 1 || userInput > 2) {
-                        system("cls");
-                        wcin.clear();
-                        wcin.ignore(numeric_limits<streamsize>::max(), '\n');
-                        wcout
-                            << WHT
-                            << L"╭──────────────────────────────────╮\n"
-                            << L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
-                            << L"├──────────────────────────────────┤\n"
-                            << L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
-                            << L"╰──────────────────────────────────╯\n";
-                    }
-                } while (wcin.fail() || userInput < 1 || userInput > 2);
+			if (secondPlayer.getAttempts() <= 0) {
+				wcout
+					<< WHT
+					<< L"╭────────────────────────────────────────────╮\n"
+					<< L"│" << GRN << L"                  Гра закінчена                  " << WHT << L"│\n"
+					<< L"├────────────────────────────────────────────┤\n"
+					<< L"│" << GRN << L" Переможець: " << YEL << firstPlayer.getName() << "                      " << WHT << L"│\n"
+					<< L"│" << GRN << L" Програвший: " << RED << secondPlayer.getName() << "                      " << WHT << L"│\n"
+					<< L"│" << GRN << L" Загадане слово: " << MAG << generatedWord << "                      " << WHT << L"│\n"
+					<< L"╰────────────────────────────────────────────╯\n";
+				system("pause");
+				break;
+			}
 
-                system("cls");
+			if (firstPlayer.getAttempts() <= 0 && secondPlayer.getAttempts() <= 0) {
+				wcout
+					<< WHT
+					<< L"╭────────────────────────────────────────────╮\n"
+					<< L"│" << GRN << L"                    Нічия!                  " << WHT << L"│\n"
+					<< L"├────────────────────────────────────────────┤\n"
+					<< L"│" << YEL << " Обидва гравці використали всі спроби       " << WHT << L"│\n"
+					<< L"╰────────────────────────────────────────────╯\n";
+				system("pause");
+				break;
+			}
 
-                switch (userInput)
-                {
-                case 1:
-                    do {
-                        wcout << WHT << L" Введіть позицію у слові (0 - " << generatedWord.size() << "): " << CYN;
-                        wcin >> position;
-                        if (wcin.fail() || position < 0 || position > generatedWord.size() - 1) {
-                            system("cls");
-                            wcin.clear();
-                            wcin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            wcout
-                                << WHT
-                                << L"╭──────────────────────────────────╮\n"
-                                << L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
-                                << L"├──────────────────────────────────┤\n"
-                                << L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
-                                << L"╰──────────────────────────────────╯\n";
-                        }
-                    } while (wcin.fail() || position < 0 || position > generatedWord.size() - 1);
-                    
-                    do {
-                        wcout << WHT << L" Введіть кількість літер (" << position << " - " << generatedWord.size() << "): " << CYN;
-                        wcin >> count;
-                        if (wcin.fail() || count < 1 || count > generatedWord.size() - position) {
-                            system("cls");
-                            wcin.clear();
-                            wcin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            wcout
-                                << WHT
-                                << L"╭──────────────────────────────────╮\n"
-                                << L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
-                                << L"├──────────────────────────────────┤\n"
-                                << L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
-                                << L"╰──────────────────────────────────╯\n";
-                        }
-                    } while (wcin.fail() || count < 1 || count > generatedWord.size() - position);
-                    
-                    wcout << WHT << L"Отримана частина: " << CYN << game.GetPartOfWord(generatedWord, position, count) << WHT << L'\n';
-                    system("pause");
-                    system("cls");
-                    break;
-                case 2:
-                    system("cls");
-                    continue;
-                    break;
-                }
-            }
-        }
+			if (firstPlayer.getAttempts() == 1 || secondPlayer.getAttempts() == 1) {
+				if (flag) {
+					do {
+						wcout
+							<< WHT
+							<< L"╭────────────────────────────────────────────╮\n"
+							<< L"│" << GRN << L"      Ви бажаєте отримати частину слова?    " << WHT << L"│\n"
+							<< L"├────────────────────────────────────────────┤\n"
+							<< L"│" << CYN << L" 1. " << GRN << L"Так                                     " << WHT << L"│\n"
+							<< L"│" << CYN << L" 2. " << GRN << L"Ні                                      " << WHT << L"│\n"
+							<< L"╰────────────────────────────────────────────╯\n"
+							<< L" Ваш вибір: " << CYN;
+						userInput = 0;
+						wcin >> userInput;
+						if (wcin.fail() || userInput < 1 || userInput > 2) {
+							system("cls");
+							wcin.clear();
+							wcin.ignore(numeric_limits<streamsize>::max(), '\n');
+							wcout
+								<< WHT
+								<< L"╭──────────────────────────────────╮\n"
+								<< L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
+								<< L"├──────────────────────────────────┤\n"
+								<< L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
+								<< L"╰──────────────────────────────────╯\n";
+						}
+					} while (wcin.fail() || userInput < 1 || userInput > 2);
 
-        system("pause");
-        system("cls");
-    }
+					system("cls");
 
-    return 0;
+					switch (userInput)
+					{
+					case 1:
+						do {
+							wcout << WHT << L" Введіть позицію у слові (0 - " << generatedWord.size() << "): " << CYN;
+							wcin >> position;
+							if (wcin.fail() || position < 0 || position > generatedWord.size() - 1) {
+								system("cls");
+								wcin.clear();
+								wcin.ignore(numeric_limits<streamsize>::max(), '\n');
+								wcout
+									<< WHT
+									<< L"╭──────────────────────────────────╮\n"
+									<< L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
+									<< L"├──────────────────────────────────┤\n"
+									<< L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
+									<< L"╰──────────────────────────────────╯\n";
+							}
+						} while (wcin.fail() || position < 0 || position > generatedWord.size() - 1);
+
+						do {
+							wcout << WHT << L" Введіть кількість літер (" << position << " - " << generatedWord.size() << "): " << CYN;
+							wcin >> count;
+							if (wcin.fail() || count < 1 || count > generatedWord.size() - position) {
+								system("cls");
+								wcin.clear();
+								wcin.ignore(numeric_limits<streamsize>::max(), '\n');
+								wcout
+									<< WHT
+									<< L"╭──────────────────────────────────╮\n"
+									<< L"│" << RED << L"       ERROR: Помилка вводу" << WHT << L"       │\n"
+									<< L"├──────────────────────────────────┤\n"
+									<< L"│" << MAG << L"   Повторіть спробу, будь-ласка" << WHT << L"   │\n"
+									<< L"╰──────────────────────────────────╯\n";
+							}
+						} while (wcin.fail() || count < 1 || count > generatedWord.size() - position);
+
+						wcout << WHT << L"Отримана частина: " << CYN << game.GetPartOfWord(generatedWord, position, count) << WHT << L'\n';
+						system("pause");
+						system("cls");
+						break;
+					case 2:
+						system("cls");
+						continue;
+						break;
+					}
+
+					flag = false;
+				}
+			}
+		}
+		system("cls");
+	}
+
+	return 0;
 }
