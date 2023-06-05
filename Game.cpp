@@ -13,7 +13,7 @@ bool Game::ValidateNickname(const std::wstring& nickname)
         if (nickname.find(symbol) != std::wstring::npos)
             return false;
 
-    if (nickname.find(L" ") != std::wstring::npos) return false;
+    if (nickname.find(L" ") == std::wstring::npos) return false;
     else if (nickname.size() < this->NICKNAME_MIN_LENGTH || nickname.size() > this->NICKNAME_MAX_LENGTH) return false;
     
     return true;
