@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define BLK L"\033[0;30m" //Black
 #define RED L"\033[0;31m" //Red
 #define GRN L"\033[0;32m" //Green

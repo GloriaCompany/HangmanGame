@@ -1,10 +1,11 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <random>
 #include <chrono>
 #include <string>
 #include <array>
+#include <codecvt>
 
 #include "DesignHangman.h"
 #include "Player.h"
@@ -21,6 +22,6 @@ public:
 	std::wstring GenerateWord(const std::wstring filePath);
 	std::wstring GetPartOfWord(const std::wstring& word, int position, int lettersCount);
 	bool IsAllLettersGuessed(const std::wstring& word, const std::wstring& guessedWord);
-	void CheckLetterInWord(Player& player, const std::wstring& word, std::wstring& guessedWord, char letter);
+	void CheckLetterInWord(Player& player, const std::wstring& word, std::wstring& guessedWord, wchar_t letter);
 };
 

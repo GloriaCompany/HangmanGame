@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <io.h>
 #include <fcntl.h>
+#include <codecvt>
 #include "Player.h"
 #include "Game.h"
 
@@ -10,6 +11,9 @@ using namespace std;
 
 int main()
 {
+    _setmode(_fileno(stdout), _O_WTEXT);
+    _setmode(_fileno(stdin), _O_WTEXT);
+
     Game game;
     DesignHangman dh;
     Player firstPlayer, secondPlayer;
@@ -19,8 +23,6 @@ int main()
     wchar_t letter;
 
     bool inMainMenu = true;
-
-    _setmode(_fileno(stdout), _O_WTEXT);
 
     while (inMainMenu) {
         do {
@@ -43,10 +45,13 @@ int main()
                     wcout << L"Введіть ім'я першого гравця: ";
                     wcin >> playerNickName;
                     if (!game.ValidateNickname(playerNickName)) {
+                        //system("cls");
                         wcout << RED 
                               << L"ERROR: Помилка введення нікнейму. Правила введення: "
+                              << GRN
                               << L"\n1.Не менше 8 та не більше 15 символів"
                               << L"\n2. Не містить пробілів та наступних символів: " << game.getInvalidSymbols()
+                              << RED
                               << L"\nПовторіть спробу, будь-ласка.\n" 
                               << WHT;
                     }
@@ -58,12 +63,14 @@ int main()
                 do {
                     wcout << L"Введіть ім'я другого гравця: ";
                     wcin >> playerNickName;
-                    if (!game.ValidateNickname(playerNickName))
-                    {
+                    if (!game.ValidateNickname(playerNickName)) {
+                        //system("cls");
                         wcout << RED 
                               << L"ERROR: Помилка введення нікнейму. Правила введення: "
+                              << GRN
                               << L"\n1. Не менше 8 та не більше 15 символів"
                               << L"\n2. Не містить пробілів та наступних символів: " << game.getInvalidSymbols()
+                              << RED
                               << L"\nПовторіть спробу, будь-ласка.\n"
                               << WHT;
                     }

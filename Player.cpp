@@ -1,4 +1,4 @@
-#include "Player.h"
+﻿#include "Player.h"
 
 std::wstring Player::getName() { return this->name; }
 int Player::getAttempts() const { return attempts; }
