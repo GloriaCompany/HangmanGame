@@ -67,7 +67,7 @@ void Game::CheckLetterInWord(Player& player, const std::wstring& word, std::wstr
     DesignHangman dh;
 
     if (word.find(letter) != std::wstring::npos) {
-        std::wcout << L"Вітаємо! Ви вгадали літеру!\n";
+        std::wcout << YEL <<L" Вітаємо! Ви вгадали літеру!\n" << WHT;
 
         for (size_t i = 0; i < word.length(); i++) {
             if (word[i] == letter) {
