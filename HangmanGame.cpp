@@ -251,7 +251,7 @@ int main()
                 {
                 case 1:
                     do {
-                        wcout << WHT << L" Введіть позицію у слові: " << CYN;
+                        wcout << WHT << L" Введіть позицію у слові (0 - " << generatedWord.size() << "): " << CYN;
                         wcin >> position;
                         if (wcin.fail() || position < 0 || position > generatedWord.size() - 1) {
                             system("cls");
@@ -268,7 +268,7 @@ int main()
                     } while (wcin.fail() || position < 0 || position > generatedWord.size() - 1);
                     
                     do {
-                        wcout << WHT << L" Введіть кількість літер: " << CYN;
+                        wcout << WHT << L" Введіть кількість літер: ( " << generatedWord.size() - position << ")" << CYN;
                         wcin >> count;
                         if (wcin.fail() || count < 1 || count > generatedWord.size() - position) {
                             system("cls");
