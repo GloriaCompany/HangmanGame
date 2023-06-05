@@ -1,6 +1,6 @@
 ﻿#include "Game.h"
 
-const std::wstring invalidSymbols = L"!@./[]()$%^&*:;`<>,-+№?";
+const std::wstring invalidSymbols = L"!@./[](){}$%^&*:;|'`<>,-+№?#";
 const int MIN_INDEX = 0;
 
 Game::Game() {}
