@@ -268,7 +268,7 @@ int main()
                     } while (wcin.fail() || position < 0 || position > generatedWord.size() - 1);
                     
                     do {
-                        wcout << WHT << L" Введіть кількість літер: ( " << generatedWord.size() - position << ")" << CYN;
+                        wcout << WHT << L" Введіть кількість літер: (" << generatedWord.size() - position << ")" << CYN;
                         wcin >> count;
                         if (wcin.fail() || count < 1 || count > generatedWord.size() - position) {
                             system("cls");
