@@ -7,11 +7,11 @@ private:
 	std::wstring name;
 	int attempts = 8;
 public:
-	std::wstring getName();
+	std::wstring getName() const;
 	int getAttempts() const;
 	
 	void setName(std::wstring& _name);
-	void setAttempts(int attempts);
+	void setAttempts(int _attempts);
 
 	void decrementAttempts();
 };
