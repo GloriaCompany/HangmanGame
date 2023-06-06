@@ -35,14 +35,22 @@ std::wstring Game::GenerateWord(const std::wstring filePath)
         file.close();
 
         if (words.empty()) {
-            std::wcout << RED << L"ERROR: Помилка зчитування файлу. Перевірте стан бази зі словами та повторіть спробу.\n" << WHT;
+            std::wcout
+                << WHT
+                << L"╭───────────────────────────────────────────────────────────────────────────────╮\n"
+                << L"│" << RED << L" ERROR: Помилка зчитування файлу. Перевірте стан бази зі словами та повторіть спробу.\t" << WHT << L"│\n"
+                << L"╰───────────────────────────────────────────────────────────────────────────────╯\n";
         } else {
             std::srand(static_cast<unsigned int>(std::time(nullptr)));
             int randomIndex = std::rand() % words.size();
             return words[randomIndex];
         }
     } else {
-        std::wcout << RED << L"ERROR: Помилка відкриття файлу. Перевірте стан бази зі словами та повторіть спробу.\n" << WHT;
+        std::wcout
+            << WHT
+            << L"╭───────────────────────────────────────────────────────────────────────────────╮\n"
+            << L"│" << RED << L" ERROR: Помилка відкриття файлу. Перевірте стан бази зі словами та повторіть спробу.\t" << WHT << L"│\n"
+            << L"╰───────────────────────────────────────────────────────────────────────────────╯\n";
     }
 
     return L"";
@@ -51,9 +59,21 @@ std::wstring Game::GenerateWord(const std::wstring filePath)
 std::wstring Game::GetPartOfWord(const std::wstring& word, int position, int lettersCount)
 {
     if (position < MIN_INDEX || position >= static_cast<int>(word.length())) {
-        std::wcout << L"ERROR: Позиція не має бути за межами заданого слова.\n";
+        std::wcout
+            << WHT
+            << L"╭───────────────────────────────────────────────────────────────────────────────╮\n"
+            << L"│" << RED << L" ERROR: Позиція не має бути за межами заданого слова.\t" << WHT << L"│\n"
+            << L"╰───────────────────────────────────────────────────────────────────────────────╯\n";
+
+        return L"";
     } else if (lettersCount < MIN_INDEX || lettersCount > static_cast<int>(word.length()) - position) {
-        std::wcout << L"ERROR: Кількість зчитуваних літер не має бути за межами заданого слова.\n";
+        std::wcout
+            << WHT
+            << L"╭───────────────────────────────────────────────────────────────────────────────╮\n"
+            << L"│" << RED << L" ERROR: Кількість зчитуваних літер не має бути за межами заданого слова.\t" << WHT << L"│\n"
+            << L"╰───────────────────────────────────────────────────────────────────────────────╯\n";
+
+        return L"";
     }
 
     return word.substr(position, lettersCount);

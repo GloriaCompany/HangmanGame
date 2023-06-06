@@ -58,7 +58,7 @@ int main()
 				playerNickName = L"";
 
 				do {
-					wcout << WHT << L"Введіть ім'я першого гравця: " << CYN;
+					wcout << WHT << L" Введіть ім'я першого гравця: " << CYN;
 					wcin >> playerNickName;
 					if (!game.ValidateNickname(playerNickName)) {
 						system("cls");
@@ -79,7 +79,7 @@ int main()
 				playerNickName = L"";
 
 				do {
-					wcout << WHT << L"Введіть ім'я другого гравця: " << CYN;
+					wcout << WHT << L" Введіть ім'я другого гравця: " << CYN;
 					wcin >> playerNickName;
 					if (!game.ValidateNickname(playerNickName)) {
 						system("cls");
@@ -144,7 +144,7 @@ int main()
 				<< L" Введіть літеру: " << CYN;
 			wcin >> letter;
 			game.CheckLetterInWord(firstPlayer, generatedWord, guessedWord, letter);
-			wcout << L"\nВідгадане слово: " << guessedWord << endl;
+			wcout << L"\n Відгадане слово: " << guessedWord << endl;
 			wcout << endl;
 
 			system("pause");
@@ -186,7 +186,7 @@ int main()
 				<< L" Введіть літеру: " << CYN;
 			wcin >> letter;
 			game.CheckLetterInWord(secondPlayer, generatedWord, guessedWord, letter);
-			wcout << L"\nВідгадане слово: " << guessedWord << endl;
+			wcout << L"\n Відгадане слово: " << guessedWord << endl;
 			wcout << endl;
 
 			system("pause");
