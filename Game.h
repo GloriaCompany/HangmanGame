@@ -13,7 +13,9 @@
 class Game
 {
 private:
+	const std::wstring invalidSymbols = L"!@./[](){}$%^&*:;|'`<>,-+№?#";
 	const int NICKNAME_MIN_LENGTH = 5, NICKNAME_MAX_LENGTH = 15;
+	const int MIN_INDEX = 0;
 public:
 	Game();
 

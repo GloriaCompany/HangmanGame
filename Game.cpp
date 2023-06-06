@@ -1,19 +1,16 @@
 ﻿#include "Game.h"
 
-const std::wstring invalidSymbols = L"!@./[](){}$%^&*:;|'`<>,-+№?#";
-const int MIN_INDEX = 0;
-
 Game::Game() {}
 
-std::wstring Game::getInvalidSymbols() { return invalidSymbols; }
+std::wstring Game::getInvalidSymbols() { return this->invalidSymbols; }
 
 bool Game::ValidateNickname(const std::wstring& nickname)
 {
-    for (wchar_t symbol : invalidSymbols)
+    for (wchar_t symbol : this->invalidSymbols)
         if (nickname.find(symbol) != std::wstring::npos)
             return false;
 
-    if (nickname.size() < NICKNAME_MIN_LENGTH || nickname.size() > NICKNAME_MAX_LENGTH) return false;
+    if (nickname.size() < this->NICKNAME_MIN_LENGTH || nickname.size() > this->NICKNAME_MAX_LENGTH) return false;
     if (nickname.find(' ') != std::wstring::npos) return false;
 
     return true;
@@ -58,7 +55,7 @@ std::wstring Game::GenerateWord(const std::wstring filePath)
 
 std::wstring Game::GetPartOfWord(const std::wstring& word, int position, int lettersCount)
 {
-    if (position < MIN_INDEX || position >= static_cast<int>(word.length())) {
+    if (position < this->MIN_INDEX || position >= static_cast<int>(word.length())) {
         std::wcout
             << WHT
             << L"╭───────────────────────────────────────────────────────────────────────────────╮\n"
@@ -66,7 +63,7 @@ std::wstring Game::GetPartOfWord(const std::wstring& word, int position, int let
             << L"╰───────────────────────────────────────────────────────────────────────────────╯\n";
 
         return L"";
-    } else if (lettersCount < MIN_INDEX || lettersCount > static_cast<int>(word.length()) - position) {
+    } else if (lettersCount < this->MIN_INDEX || lettersCount > static_cast<int>(word.length()) - position) {
         std::wcout
             << WHT
             << L"╭───────────────────────────────────────────────────────────────────────────────╮\n"
@@ -104,7 +101,7 @@ void Game::CheckLetterInWord(Player& player, const std::wstring& word, std::wstr
     if (word.find(letter) != std::wstring::npos) {
         std::wcout << YEL <<L" Вітаємо! Ви вгадали літеру!\n" << WHT;
 
-        for (size_t i = MIN_INDEX; i < word.length(); i++) {
+        for (size_t i = this->MIN_INDEX; i < word.length(); i++) {
             if (word[i] == letter) {
                 guessedWord[i] = letter;
             }
