@@ -67,6 +67,20 @@ void Game::CheckLetterInWord(Player& player, const std::wstring& word, std::wstr
 {
     DesignHangman dh;
 
+    if (guessedWord.find(letter) != std::wstring::npos) {
+        letter = ' ';
+        do {
+            system("cls");
+            std::wcout
+                << WHT
+                << L"╭───────────────────────────────────────────────────────────────────────────────╮\n"
+                << L"│" << RED << L" ERROR: Введена літера вже була вгадана раніше. Повторіть спробу, будь-ласка.\t" << WHT << L"│\n"
+                << L"╰───────────────────────────────────────────────────────────────────────────────╯\n";
+            std::wcout << L" Введіть нову літеру: " << CYN;
+            std::wcin >> letter;
+        } while (guessedWord.find(letter) != std::wstring::npos);
+    }
+
     if (word.find(letter) != std::wstring::npos) {
         std::wcout << YEL <<L" Вітаємо! Ви вгадали літеру!\n" << WHT;
 

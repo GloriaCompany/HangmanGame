@@ -15,7 +15,6 @@ int main()
 	_setmode(_fileno(stdin), _O_WTEXT);
 
 	Game game;
-	DesignHangman dh;
 	Player firstPlayer, secondPlayer;
 
 	wstring playerNickName, generatedWord;
@@ -54,6 +53,7 @@ int main()
 
 		switch (userInput) {
 		case 1:
+			flag = true;
 			do {
 				playerNickName = L"";
 
@@ -299,7 +299,7 @@ int main()
 							}
 						} while (wcin.fail() || count < 1 || count > generatedWord.size() - position);
 
-						wcout << WHT << L"Отримана частина: " << CYN << game.GetPartOfWord(generatedWord, position, count) << WHT << L'\n';
+						wcout << WHT << L" Отримана частина: " << CYN << game.GetPartOfWord(generatedWord, position, count) << WHT << L'\n';
 						system("pause");
 						system("cls");
 						break;
