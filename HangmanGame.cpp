@@ -144,10 +144,21 @@ int main()
 				<< L"│" << GRN << L"     Черга гравця: " << CYN << firstPlayer.getName() << "      " << WHT << L"│\n"
 				<< L"╰──────────────────────────────────╯\n"
 				<< L" Введіть літеру: " << CYN;
-			while (std::wcin.get(letter)) {
+			do {
+				std::wcin >> letter;
 				std::wcin.ignore(std::numeric_limits<std::streamsize>::max(), L'\n');
-				break;
-			}
+
+				if (!game.ValidateLetter(letter)) {
+					system("cls");
+					std::wcout
+						<< WHT
+						<< L"╭───────────────────────────────────────────────────────────────╮\n"
+						<< L"│" << RED << L" ERROR: Помилка введення літери. Повторіть спробу, будь-ласка.\t" << WHT << L"│\n"
+						<< L"╰───────────────────────────────────────────────────────────────╯\n"
+						<< L" Введіть нову літеру: " << CYN;
+				}
+			} while (!game.ValidateLetter(letter));
+
 			game.CheckLetterInWord(firstPlayer, generatedWord, guessedWord, letter);
 			wcout << L"\n Відгадане слово: " << guessedWord << endl;
 			wcout << endl;
@@ -189,10 +200,23 @@ int main()
 				<< L"│" << GRN << L"     Черга гравця: " << CYN << secondPlayer.getName() << "      " << WHT << L"│\n"
 				<< L"╰──────────────────────────────────╯\n"
 				<< L" Введіть літеру: " << CYN;
-			while (std::wcin.get(letter)) {
-				std::wcin.ignore(std::numeric_limits<std::streamsize>::max(), L'\n');
-				break;
-			}
+			do {
+				while (std::wcin.get(letter)) {
+					std::wcin.ignore(std::numeric_limits<std::streamsize>::max(), L'\n');
+					break;
+				}
+
+				if (!game.ValidateLetter(letter)) {
+					system("cls");
+					std::wcout
+						<< WHT
+						<< L"╭───────────────────────────────────────────────────────────────╮\n"
+						<< L"│" << RED << L" ERROR: Помилка введення літери. Повторіть спробу, будь-ласка.\t" << WHT << L"│\n"
+						<< L"╰───────────────────────────────────────────────────────────────╯\n"
+						<< L" Введіть нову літеру: " << CYN;
+				}
+			} while (!game.ValidateLetter(letter));
+
 			game.CheckLetterInWord(secondPlayer, generatedWord, guessedWord, letter);
 			wcout << L"\n Відгадане слово: " << guessedWord << endl;
 			wcout << endl;

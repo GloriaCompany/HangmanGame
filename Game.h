@@ -21,6 +21,7 @@ public:
 
 	std::wstring getInvalidSymbols();
 	bool ValidateNickname(const std::wstring& nickname);
+	bool ValidateLetter(wchar_t letter);
 	std::wstring GenerateWord(const std::wstring filePath);
 	std::wstring GetPartOfWord(const std::wstring& word, int position, int lettersCount);
 	bool IsAllLettersGuessed(const std::wstring& word, const std::wstring& guessedWord);

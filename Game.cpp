@@ -16,6 +16,14 @@ bool Game::ValidateNickname(const std::wstring& nickname)
     return true;
 }
 
+bool Game::ValidateLetter(wchar_t letter)
+{
+    if (iswdigit(letter)) return false;
+    if (invalidSymbols.find(letter) != std::wstring::npos) return false;
+
+    return true;
+}
+
 std::wstring Game::GenerateWord(const std::wstring filePath)
 {
     std::wifstream file(filePath);
