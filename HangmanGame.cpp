@@ -101,9 +101,11 @@ int main()
 					system("cls");
 					wcout
 						<< WHT
-						<< L"╭────────────────────────────────────────────────────────────────────────╮\n"
-						<< L"│" << RED << L"    ERROR: Імена гравців співпадають. Повторіть спробу, будь-ласка.\t" << WHT << L" │\n"
-						<< L"╰────────────────────────────────────────────────────────────────────────╯\n";
+						<< L"╭──────────────────────────────────────╮\n"
+						<< L"│" << RED << L"   ERROR: Імена гравців співпадають   " << WHT << L"│\n"
+						<< L"├──────────────────────────────────────┤\n"
+						<< L"│" << RED << L"    Повторіть спробу, будь - ласка    " << WHT << L"│\n"
+						<< L"╰──────────────────────────────────────╯\n";
 				}
 			} while (firstPlayer.getName() == secondPlayer.getName());
 
@@ -142,7 +144,10 @@ int main()
 				<< L"│" << GRN << L"     Черга гравця: " << CYN << firstPlayer.getName() << "      " << WHT << L"│\n"
 				<< L"╰──────────────────────────────────╯\n"
 				<< L" Введіть літеру: " << CYN;
-			wcin >> letter;
+			while (std::wcin.get(letter)) {
+				std::wcin.ignore(std::numeric_limits<std::streamsize>::max(), L'\n');
+				break;
+			}
 			game.CheckLetterInWord(firstPlayer, generatedWord, guessedWord, letter);
 			wcout << L"\n Відгадане слово: " << guessedWord << endl;
 			wcout << endl;
@@ -168,7 +173,7 @@ int main()
 				wcout
 					<< WHT
 					<< L"╭────────────────────────────────────────────╮\n"
-					<< L"│" << GRN << L"                  Гра закінчена             " << WHT << L"│\n"
+					<< L"│" << GRN << L"               Гра закінчена               " << WHT << L"│\n"              
 					<< L"├────────────────────────────────────────────┤\n"
 					<< L"│" << GRN << L" Переможець: " << YEL << secondPlayer.getName() << "                      " << WHT << L"│\n"
 					<< L"│" << GRN << L" Програвший: " << RED << firstPlayer.getName() << "                      " << WHT << L"│\n"
@@ -184,7 +189,10 @@ int main()
 				<< L"│" << GRN << L"     Черга гравця: " << CYN << secondPlayer.getName() << "      " << WHT << L"│\n"
 				<< L"╰──────────────────────────────────╯\n"
 				<< L" Введіть літеру: " << CYN;
-			wcin >> letter;
+			while (std::wcin.get(letter)) {
+				std::wcin.ignore(std::numeric_limits<std::streamsize>::max(), L'\n');
+				break;
+			}
 			game.CheckLetterInWord(secondPlayer, generatedWord, guessedWord, letter);
 			wcout << L"\n Відгадане слово: " << guessedWord << endl;
 			wcout << endl;
