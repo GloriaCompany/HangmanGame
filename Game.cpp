@@ -19,7 +19,7 @@ bool Game::ValidateNickname(const std::wstring& nickname)
 bool Game::ValidateLetter(wchar_t letter)
 {
     if (iswdigit(letter)) return false;
-    if (invalidSymbols.find(letter) != std::wstring::npos) return false;
+    if (this->invalidSymbols.find(letter) != std::wstring::npos) return false;
 
     return true;
 }
