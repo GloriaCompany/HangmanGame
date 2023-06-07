@@ -25,7 +25,7 @@ std::wstring Game::GenerateWord(const std::wstring filePath)
     std::wstring word;
 
     if (file.is_open()) {
-        while (std::getline(file, word)) {
+        while (std::getline(file >> std::ws, word)) {
             words.push_back(word);
         }
 
