@@ -220,18 +220,6 @@ int main()
 				break;
 			}
 
-			if (firstPlayer.getAttempts() <= 0 && secondPlayer.getAttempts() <= 0) {
-				wcout
-					<< WHT
-					<< L"╭────────────────────────────────────────────╮\n"
-					<< L"│" << GRN << L"                    Нічия!                  " << WHT << L"│\n"
-					<< L"├────────────────────────────────────────────┤\n"
-					<< L"│" << YEL << " Обидва гравці використали всі спроби       " << WHT << L"│\n"
-					<< L"╰────────────────────────────────────────────╯\n";
-				system("pause");
-				break;
-			}
-
 			if (firstPlayer.getAttempts() == 1 || secondPlayer.getAttempts() == 1) {
 				if (flag) {
 					do {
